@@ -1,0 +1,19 @@
+*{
+    font-family: 'Titillium Web', sans-serif;
+    /* background-color: blanchedalmond; */
+}
+
+html,
+body {
+  margin: 0px;
+}
+
+
+li a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+    
+}
