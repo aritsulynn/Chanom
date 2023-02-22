@@ -1,3 +1,118 @@
+
+header {
+  padding: 40px;
+  color: #A34A21;
+}
+/* Style the navigation bar */
+nav h1 {
+  background-color: rgb(228, 199, 199);
+
+}
+nav  {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  background-color: rgb(228, 199, 199);
+}
+
+nav a {
+  color: #A34A21;
+  font-size: 20px;
+  background-color: rgb(228, 199, 199);
+  text-decoration: none;
+  margin-left: 40px;
+}
+
+nav a:hover {
+  color: #ff0077;
+}
+
+
+fieldset {
+  border-color: rgb(0, 0, 0);
+  color: #A34A21;
+  border-radius: 10px;
+  padding: 25px;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+
+legend {  
+  text-align: center;
+}
+fieldset.login-form {
+  width: 40%;
+  margin: auto;
+  margin-top: 150px;
+  font-size: 25px;
+}
+
+div.login-form {
+  padding: 4px;
+  margin-left: 50px;
+}
+div.login-form h5{
+  font-size: 20px;
+}
+label.login-form {
+  padding-right: 38px;
+  font-size: smaller;
+}
+
+.login-form a {
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+}
+
+.login-form circle {
+  margin: auto  ;
+  width: 400px;
+  height: 400px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the footer */
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.container {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-evenly;
+  flex-wrap: wrap;
+}
+
+input[type="text"], input[type="password"], input[type="number"] {
+  height: 30px;
+  width: 50%;
+  border-radius: 8px;
+  font-size: 20px
+}
+
+button {
+  margin-top: 10px;
+  border-radius: 10px;
+  height: 40px;
+  font-size: 25px;
+  margin-left: 600px;
+}
+
+
+
+
 *{
     font-family: 'Titillium Web', sans-serif;
     /* background-color: blanchedalmond; */
@@ -27,3 +142,4 @@ ul li{
     text-decoration: none;
     color: black;
 }
+

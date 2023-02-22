@@ -1,0 +1,49 @@
+{
+    "bubble": [
+        {
+            "name": "Thai Bubble Milk Tea",
+            "img_url": "https://i.pinimg.com/564x/73/99/3b/73993bf4a7b455bd03d30214cea4b6f3.jpg",
+            "type": "Thai Tea",
+            "topping": ["Black Pearl", "Grass Jelly"],
+            "rating": "★★★★★",
+            "page": "detail1.html",
+            "description": "Thai bubble milk tea, also known as Thai milk tea or cha yen, is a popular and refreshing drink in Thailand and many other parts of the world. It is made with a blend of black tea, sweetened condensed milk, and sugar, which gives it a creamy and sweet taste."
+        },
+        {
+            "name": "Taiwan Bubble Milk Tea",
+            "img_url": "https://i.pinimg.com/564x/75/e3/56/75e356372b67513418bd278756bf1601.jpg",
+            "type": "Taiwan Tea",
+            "topping": ["Black Pearl"],
+            "rating": "★★★★★",
+            "page": "detail2.html",
+            "description": "Taiwan bubble milk tea, also known as boba tea, is a popular and trendy drink that originated in Taiwan in the 1980s. It is made with a base of black tea, green tea, or a combination of both, which is blended with milk and sugar to create a sweet and creamy beverage." 
+        },
+        {
+            "name": "Matcha Bubble Tea",
+            "img_url": "https://i.pinimg.com/564x/9a/55/5b/9a555b5b951482a37a61accc26543b0f.jpg",
+            "type": "Green Tea",
+            "topping": ["Black Pearl"],
+            "rating": "★★★★★",
+            "page": "detail3.html",
+            "description": "Matcha bubble tea, also known as matcha boba tea or green tea boba, is a popular beverage that combines the flavors of matcha, a finely ground powder made from specially grown green tea leaves, with the chewy texture of tapioca pearls."
+        },
+        {
+            "name": "Strawberry Bubble Milk Tea",
+            "img_url": "https://i.pinimg.com/564x/b4/aa/19/b4aa1942f2ea8d731a4114ad1a060d12.jpg",
+            "type": "Jasmine tea",
+            "topping": ["Black Pearl"],
+            "rating": "★★★★",
+            "page": "detail4.html",
+            "description": "Strawberry bubble milk tea is a popular variation of the classic bubble milk tea that incorporates the sweet and fruity flavor of fresh or artificial strawberries. It typically starts with a base of black or green tea that is mixed with fresh or frozen strawberries, milk, and sweeteners like sugar or honey."
+        },
+        {
+            "name": "Brown Sugar Milk Tea",
+            "img_url": "https://i.pinimg.com/564x/3e/d2/ae/3ed2ae7f4b4332fd03befab8e81dcf7d.jpg",
+            "type": "Black Tea",
+            "topping": ["Black Pearl", "Brown Sugar"],
+            "rating": "★★★★",
+            "page": "detail5.html",
+            "description": "Brown sugar milk tea, also known as brown sugar boba milk or tiger milk tea, is a popular Taiwanese beverage that has gained widespread popularity in recent years. It is made by combining brewed tea with milk, brown sugar syrup, and chewy tapioca pearls."
+        }
+    ]
+}
