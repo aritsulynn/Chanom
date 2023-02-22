@@ -1,3 +1,4 @@
+console.log("Javascript Loaded!")
 const navbar = document.getElementById("nav");
 navbar.innerHTML = `
     <nav style="display: flex; justify-content: space-around; margin-top: 15px;">
