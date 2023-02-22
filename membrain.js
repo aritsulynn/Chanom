@@ -18,19 +18,18 @@ navbar.innerHTML = `
 //     opened.document.write("<html><head><title>Detail</title></head><body>test</body></html>");
 // }
 
-const cardContainer = document.getElementById("cardContainer");
 
 const fetchData = async () => {
   try {
     const response = await fetch("data.json");
     const data = await response.json();
+    const cardContainer = document.getElementById("cardContainer");
     // console.log(data);
     // console.log(data.bubble[0].name);
-    
-
-    for(let i = 0; i<data.bubble.length; i++){
-        const card = document.createElement("card")
-        card.innerHTML = `
+    if(!cardContainer) return
+    for (let i = 0; i < data.bubble.length; i++) {
+      const card = document.createElement("card");
+      card.innerHTML = `
                     <div class="card" style="width: 18rem;">
                         <a href="/${data.bubble[i].page}" style="width: 18rem;">
                             <img src="${data.bubble[i].img_url}" class="card-img-top" alt="...">
@@ -39,10 +38,8 @@ const fetchData = async () => {
                             </div>
                         </a>
                     </div>`;
-        cardContainer.appendChild(card)
+      cardContainer.appendChild(card);
     }
-
-
     // return data
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -52,16 +49,17 @@ const fetchData = async () => {
 fetchData();
 
 const fetchOneData = async () => {
-try {
+  try {
     const response = await fetch("data.json");
     const data = await response.json();
     // console.log(data);
 
-
     const myid = document.getElementById("card");
-    const id = myid.getAttribute('card');
-    console.log(id)
-    console.log(data.bubble[id].img_url)
+    if(!myid) return
+    const id = myid.getAttribute("card");
+
+    // console.log(id);
+    // console.log(data.bubble[id].img_url);
     myid.innerHTML = `
                 <div>
                     <img src="${data.bubble[id].img_url}" alt="...">
@@ -73,13 +71,11 @@ try {
                         <h5 class="card-title"><b>Rating: </b>${data.bubble[id].rating}</h5>
                     </div>
                 </div>`;
-    cardContainer.appendChild(myid)
-        
-    
+
     // return data
-} catch (error) {
+  } catch (error) {
     console.error("Error fetching data:", error);
-}
+  }
 };
 
-fetchOneData();
+fetchOneData()
