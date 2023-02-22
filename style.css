@@ -14,6 +14,16 @@ li a{
 }
 
 ul{
-    list-style: none;
-    
+    list-style: none; 
+    align-items: center;
+}
+
+ul li{
+    margin-left: 10px;
+}
+
+
+.cardContainer a{
+    text-decoration: none;
+    color: black;
 }
