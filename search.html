@@ -14,12 +14,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" defer></script>
 </head>
 <body>
-
     <nav id="nav"></nav>
-    
-    <section>
-        <center>
-            <h2>Choose your drink</h2>
+    <section style="text-align: center; margin-top: 4%">
+        <h2>Choose your drink</h2>
             <search>
                     <input type="text" id="teaName" placeholder="What is your taste?">&nbsp&nbsp<button>Search</button>
                     <label for="milk">Type</label>
@@ -53,13 +50,14 @@
                         </optgroup>
                     </select>
             </search>
-        </center> 
+        
     </section>
-
-    <section class="cardContainer">
-        <div class="container" id="cardContainer"></div>
-    </section>
-
-
+    <div class="container" id="cardContainer" style="margin-top: 2%"></div>
+    <!-- <footer class="position-relative">
+        This is the footer
+    </footer> -->
+    <footer class="fixed-bottom">
+        This is the footer
+    </footer>
 </body>
 </html>

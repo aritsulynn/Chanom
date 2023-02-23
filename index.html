@@ -1,81 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="/style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-    <link rel="icon" type="image/x-icon" href="/src/img/logo.png" />
-    <script src="/membrain.js" type="text/JavaScript" defer></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-      defer
-    ></script>
-    <title>Custome Bubble tea</title>
-  </head>
-  <body>
-    <nav id="nav"></nav>
 
-    <section>
-      <div class="card" style="width: 18rem">
-        <img src="/img/emptyglass.png" class="card-img-top" alt="..." />
-        <div class="card-body">
-          <h5 class="card-title">Image</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-        </div>
-      </div>
-      <h1>Recommends</h1>
-      <div class="card" style="width: 18rem">
-        <img src="/img/emptyglass.png" class="card-img-top" alt="..." />
-        <div class="card-body">
-          <h5 class="card-title">Tea1</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-        </div>
-      </div>
-      <div class="card" style="width: 18rem">
-        <img src="/img/emptyglass.png" class="card-img-top" alt="..." />
-        <div class="card-body">
-          <h5 class="card-title">Tea2</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-        </div>
-      </div>
-      <div class="card" style="width: 18rem">
-        <img src="/img/emptyglass.png" class="card-img-top" alt="..." />
-        <div class="card-body">
-          <h5 class="card-title">Tea3</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-        </div>
-      </div>
-    </section>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <link rel="icon" type="image/x-icon" href="/src/img/logo.png" />
+  <script src="/membrain.js" type="text/javascript" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"
+    defer></script>
+  <link rel="stylesheet" href="style.css" />
+  <title>Custom Bubble Tea</title>
+  <style>
+    img {   /* Adjust the picture of the card's size */
+      height: 420px;
+      object-fit: cover;
+    }
+  </style>
+</head>
 
-    <!-- <footer>
-      <hr />
-    </footer> -->
-  </body>
+<body>
+  <nav id="nav"></nav>
+
+  <main>
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="img/TeaBanner.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="img/BubbleTeaBanner.jpg" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="img/greenTeaBanner.jpg" class="d-block w-100" alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+    <section style="padding:30px;background-color: xxx">
+      <h1 style="text-align: center;">Custom Bubble Tea's Signatures</h1>
+    <div class="container cardContainer">
+      <div class="container" id="Eachcard" cardid="1" style="text-align: center;"></div>
+  </main>
+  <footer class="position-relative">This is the footer</footer>
+</body>
+
 </html>
