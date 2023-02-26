@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>-Chanom- product management</title>
+    <title>Product Management | CHANOM</title>
     <link rel="stylesheet" href="style.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,20 +10,29 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 <body>
-  <nav id="nav"></nav>
-    <main>
-        <div class="container-fluid" style="padding-top: 50px;">
+  <header>
+    <a href="index.html"><h1>CHANOM</h1></a>
+</header>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="search.html">Search</a>
+    <a href="pManage.html">Product Management</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="login.html">Log In</a>
+</nav>
+    <main class="pManage">
+        <div class="container-fluid" style="padding: 50px; background-color: #F8F4F1;">
             <div class="row">
-                <div class = "col-4 product-input">
-                    <form style="width: fit-content; margin: auto;">
+                <div class="col-4 product-input">
+                    <form>
                         <h1>Add a Product</h1>
                         <label for="product-input">Drink Name:</label>
                         <input type="text" placeholder="Name" id="drinkName" required> <br>
-                        <label for="product-input">Type:</label><br>
+                        <label for="product-input">Type:</label>
                         <input type="radio" name="drink-type" value="BMT" id="drinkType" required> Bubble Milk Tea<br>
                         <input type="radio" name="drink-type" value="BM" id="drinkType" required> Bubble Milk <br>
-                        <input type="radio" name="drink-type" value="YF" id="drinkType" required> Fruit Youghurt Frappe <br>
-                        <label for="product-input">Price:</label>
+                        <input type="radio" name="drink-type" value="YF" id="drinkType" required> Fruit Youghurt Frappe <br> <br>
+                        <label for="product-input">Price:</label> 
                         <input type="number" placeholder="Price" id="drinkPrice" required> Baht <br>
                         <label for="product-input">Select Image:</label>
                         <input type="file" required> <br>
@@ -101,8 +110,8 @@
             </div>
         </div> 
     </main>
-    <footer class="fixed-bottom">
-        This is the footer
+    <footer class="position-relative">
+      © 2023 Copyright: CHANOM. All rights reserved.
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>

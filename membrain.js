@@ -20,11 +20,6 @@ const getNav = () =>{
 }
 
 getNav();
-// const button = (props) =>{
-//     var opened = window.open("");
-//     opened.document.write("<html><head><title>Detail</title></head><body>test</body></html>");
-// }
-
 
 const fetchData = async () => {
   try {

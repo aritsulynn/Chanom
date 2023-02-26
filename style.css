@@ -1,198 +1,370 @@
-@import url("https://fonts.googleapis.com/css2?family=Itim&display=swap");
+/*Fixed section*/
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap");
 
 * {
-  font-family: "Itim", cursive;
-  /* margin: 0; */
+  box-sizing: border-box;
+  font-family: "Roboto Slab", serif;
 }
-/*Flex section*/
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
 body {
-  background-color: #F8F4F1;
-}
-
-/*Flex section*/
-
-/* Style the navigation bar */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #F88379;
-  color: #fff;
-  padding: 1em;
-}
-
-nav ul {
-  margin: 0;
   padding: 0;
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-nav li {
   margin: 0;
+  background-color: #f8f4f1;
+  box-sizing: border-box;
 }
-
-nav a {
-  display: block;
-  padding: 1em;
-  color: #fff;
+header {
+  padding: 40px;
+  background: linear-gradient(45deg, rgb(228, 199, 199), white);
+  color: #8c0724;
+  font-size: 20px;
+}
+header h1 {
+  font-size: 70px;
+}
+header a {
   text-decoration: none;
+  color: #8c0724;
 }
-
-nav a:hover{
-  color: #DC143C;
+header a:hover {
+  color: #8c0724;
 }
+/* Style the navigation bar */
 
-@media screen and (max-width: 768px) {
-  header {
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .logo {
-    margin-bottom: 1em;
-  }
-
-  /* nav {
-    margin-top: 1em;
-  } */
-
-  nav ul {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
-/*Flex section*/
-
-/*<!-- Login Section -->*/
-
-.login-container {
+nav {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 50%;
+  flex-direction: row;
+  padding: 20px;
+  background-color: rgb(228, 199, 199);
+}
+nav a {
+  color: #a34a21;
+  font-size: 20px;
+  background-color: rgb(228, 199, 199);
+  text-decoration: none;
+  margin-left: 40px;
+}
+nav a:hover {
+  color: #e0217a;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 1em;
-}
-
-label, input {
-  margin-bottom: 0.5em;
-}
-
-button {
-  margin-top: 1em;
-}
-
-.forgot-password {
-  margin-bottom: 1em;
-}
-
-.forgot-password a {
-  color: #333;
-}
-
-.sign-up {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.sign-up p {
-  margin-bottom: 0.5em;
-}
-
-
-
-/* Style the footer */
 footer {
   background-color: #333;
   color: #fff;
   text-align: center;
   padding: 20px;
-  position: fixed;
+
   bottom: 0;
   width: 100%;
 }
 
-/* .container {
-  padding-top: 30px;
+/*Login section*/
+.container-login {
+  min-height: calc(100vh - 40px * 2);
+  display: grid;
+  grid-template-columns: 50% 50%;
+  overflow: hidden;
+}
+
+.login-left {
   display: flex;
-  flex-direction: row;
-  justify-content:space-evenly;
-  flex-wrap: wrap;
-} */
+  flex-direction: column;
+  justify-content: content;
+  padding-left: 150px;
+  background-color: white;
+}
+.login-right {
+  background: linear-gradient(45deg, white, rgb(223, 159, 159));
+  display: flex;
+  justify-content: center;
+}
+.login-form {
+  width: 450px;
+}
+
+.login-form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.login-form-footer {
+  display: flex;
+  gap: 30px;
+  margin-top: 70px;
+}
+
+.login-form-footer a {
+  flex: 6;
+  border-radius: 100px;
+  padding: 0.6rem;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  color: black;
+  text-decoration: none;
+}
+.login-form-footer a:hover {
+  background-color: #eee;
+}
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #f0c88c;
+}
+
+button.login-button {
+  border: none;
+  background: linear-gradient(45deg, #f0c88c, rgb(228, 199, 199));
+  color: white;
+  padding: 1rem;
+  border-radius: 100px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 18px;
+  height: 55px;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.login-header {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  color: #8c0724;
+}
+.login-header h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+.login-header p {
+  opacity: 0.7;
+}
+
+.form-item label:not(.checkboxLabel) {
+  display: inline-block;
+  background-color: white;
+  margin-bottom: 10px;
+  position: absolute;
+  padding: 0 10px;
+  transform: translate(30px, -10px);
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"] {
+  border: 1px solid black;
+  height: 55px;
+  padding: 0 2rem;
+  width: 100%;
+  transition: background 0.5s;
+  font-size: 18px;
+  border-radius: 100px;
+}
+
+@media (max-width: 1350px) {
+  .login-left {
+    padding: 50px;
+  }
+  .login-form {
+    width: 100%;
+  }
+  .login-form-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+.login-right img {
+  margin: auto;
+  object-fit: cover;
+}
+/*Login section*/
 
 /*<!-- Search Section -->*/
 #search-form {
-  position: fixed;
-  top: 30%;
-  left: 30%;
-  height: 100%;
-  width: 100%;
-  z-index: 1004;
-  display: flex;
-  padding: 0.1rem;
-  transition: 0.7s;
+  text-align: center;
+  padding-top: 50px;
 }
-#search-box {
-  padding-right: 500px;
+
+#search-form * {
+  margin-bottom: 20px;
+  color:#8c0724;
 }
 
 input[type="text-search"] {
   height: 30px;
-  width: 100%;
+  width: 50%;
   border-radius: 8px;
-  font-size: 20px
+  font-size: 20px;
 }
 
-#search-form.active{
-  top: 0;
-}
-#search-form label{
+#search-form label {
   padding-right: 10px;
 }
+
 #type-drink {
   padding-top: 1%;
 }
 #search-btn {
-  padding-top: 1%;
-  margin-top: 10px;
-  border-radius: 10px;
-  width: 200px;
-  height: 40px;
-  font-size: 25px;  
+  border: none;
+  background: linear-gradient(45deg, #f0c88c, rgb(228, 199, 199));
+  color: white;
+  padding: 1rem;
+  border-radius: 100px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 18px;
+  height: 55px;
+  cursor: pointer;
 }
 #search-btn :hover {
   color: #ff0077;
-  border-color:#ff0077;
+  border-color: #ff0077;
   cursor: pointer;
 }
 
-
-#cardContainer{
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-self: auto;
+#search-result {
+  text-align: center;
+  padding: 30px;
+  color: #8c0724;
 }
 
+.container-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/*<!-- Search Section -->*/
 
-.card img{
-  /* height: 300px; */
-  background-size: cover;
+/*<!-- Home Section -->*/
+.carousel-item img {
+  transition: transform 1s ease;
+}
+
+.carousel-item img:hover {
+  transform: scale(1.2);
+}
+
+.card img {
+  transition: transform 1s ease;
+}
+
+.card img:hover {
+  transform: scale(1.1);
+}
+/*<!-- Search Section -->*/
+
+/* About us section */
+
+
+div p {
+  font-size: 18px;
+  color: #6a070a;
+}
+
+/* pManage section */
+
+.container-fluid {
+  padding: 0 10px;
+}
+.col-8 h1 {
+  color: #8c0724;
+  text-align: center;
+}
+
+/* Product Input Styles */
+
+.product-input {
+  background: linear-gradient(45deg, #fde0c9, #ebe5de);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.product-input h1 {
+  font-size: 32px;
+  color: #8c0724;
+  margin-bottom: 20px;
+  border-radius: 15px;
+}
+
+.product-input label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #8c0724;
+  border-radius: 15px;
+}
+
+.product-input input[type="text"],
+.product-input input[type="number"],
+.product-input input[type="file"] {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 18px;
+  width: 300px;
+  border-radius: 15px;
+}
+
+.product-input input[type="radio"] {
+  margin-right: 5px;
+}
+
+.product-input button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #fcaaa1;
+  color: #8c0724;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.product-input button[type="reset"] {
+  margin-left: 10px;
+  background-color: #ffffff;
+  color: #f79489;
+}
+
+.pManage {
+  color: #bd7304;
+}
+/* Existing Products Table Styles */
+
+table {
+  margin-top: 50px;
+}
+
+table th,
+table td {
+  text-align: center;
+  font-size: 18px;
+}
+
+table th {
+  background-color: #f79489;
+  color: black;
+}
+
+table tr:nth-child(odd) {
+  background-color: rgb(150, 219, 224);
+}
+
+table tr:hover {
+  background-color: #88e2e98e;
+}
+
+table i {
+  font-size: 24px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+table i:hover {
+  color: #f79489;
 }
