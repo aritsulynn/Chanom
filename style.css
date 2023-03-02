@@ -1,21 +1,17 @@
-/*Fixed section*/
+/* import google font  */
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap");
 
+/* This section must be applied to every page */
 * {
-  box-sizing: border-box;
   font-family: "Roboto Slab", serif;
 }
 body {
-  padding: 0;
-  margin: 0;
   background-color: #f8f4f1;
-  box-sizing: border-box;
 }
 header {
   padding: 40px;
   background: linear-gradient(45deg, rgb(228, 199, 199), white);
   color: #8c0724;
-  font-size: 20px;
 }
 header h1 {
   font-size: 70px;
@@ -27,8 +23,6 @@ header a {
 header a:hover {
   color: #8c0724;
 }
-/* Style the navigation bar */
-
 nav {
   display: flex;
   flex-direction: row;
@@ -45,7 +39,6 @@ nav a {
 nav a:hover {
   color: #e0217a;
 }
-
 footer {
   background-color: #333;
   color: #fff;
@@ -55,15 +48,15 @@ footer {
   bottom: 0;
   width: 100%;
 }
+/* ------------------------------------------- */
 
-/*Login section*/
+/* Login section */
 .container-login {
   min-height: calc(100vh - 40px * 2);
   display: grid;
   grid-template-columns: 50% 50%;
   overflow: hidden;
 }
-
 .login-left {
   display: flex;
   flex-direction: column;
@@ -79,19 +72,16 @@ footer {
 .login-form {
   width: 450px;
 }
-
 .login-form-content {
   display: flex;
   flex-direction: column;
   gap: 35px;
 }
-
 .login-form-footer {
   display: flex;
   gap: 30px;
   margin-top: 70px;
 }
-
 .login-form-footer a {
   flex: 6;
   border-radius: 100px;
@@ -110,13 +100,11 @@ footer {
   align-items: center;
   gap: 7px;
 }
-
 input[type="checkbox"] {
   width: 20px;
   height: 20px;
   accent-color: #f0c88c;
 }
-
 button.login-button {
   border: none;
   background: linear-gradient(45deg, #f0c88c, rgb(228, 199, 199));
@@ -124,13 +112,11 @@ button.login-button {
   padding: 1rem;
   border-radius: 100px;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: uppercase;  /* change text to uppercase */
   font-size: 18px;
   height: 55px;
-  cursor: pointer;
   margin-top: 30px;
 }
-
 .login-header {
   margin-top: 50px;
   margin-bottom: 50px;
@@ -143,68 +129,48 @@ button.login-button {
 .login-header p {
   opacity: 0.7;
 }
-
-.form-item label:not(.checkboxLabel) {
+.form-item label:not(.checkboxLabel) {    /* style the input box (make the text stands between the border line) */
   display: inline-block;
   background-color: white;
   margin-bottom: 10px;
   position: absolute;
   padding: 0 10px;
-  transform: translate(30px, -10px);
+  transform: translate(30px, -10px);  /* move the text 30px in x-axis and -10px in y-axis */
   font-size: 14px;
 }
-
 input[type="text"],
 input[type="password"] {
   border: 1px solid black;
   height: 55px;
   padding: 0 2rem;
   width: 100%;
-  transition: background 0.5s;
   font-size: 18px;
   border-radius: 100px;
-}
-
-@media (max-width: 1350px) {
-  .login-left {
-    padding: 50px;
-  }
-  .login-form {
-    width: 100%;
-  }
-  .login-form-footer {
-    flex-direction: column;
-    gap: 15px;
-  }
 }
 .login-right img {
   margin: auto;
   object-fit: cover;
 }
-/*Login section*/
+/*-----------------------------------*/
 
-/*<!-- Search Section -->*/
+/* Search Section */
 #search-form {
   text-align: center;
   padding-top: 50px;
 }
-
 #search-form * {
   margin-bottom: 20px;
   color:#8c0724;
 }
-
 input[type="text-search"] {
   height: 30px;
   width: 50%;
   border-radius: 8px;
   font-size: 20px;
 }
-
 #search-form label {
   padding-right: 10px;
 }
-
 #type-drink {
   padding-top: 1%;
 }
@@ -226,47 +192,38 @@ input[type="text-search"] {
   cursor: pointer;
 }
 
-#search-result {
-  text-align: center;
-  padding: 30px;
-  color: #8c0724;
-}
-
 .container-search {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
 }
-/*<!-- Search Section -->*/
+/*-----------------------------------*/
 
-/*<!-- Home Section -->*/
+/* Carousel and card image zooming effect while cursor hovering */
 .carousel-item img {
   transition: transform 1s ease;
 }
-
 .carousel-item img:hover {
   transform: scale(1.2);
 }
-
 .card img {
   transition: transform 1s ease;
 }
-
 .card img:hover {
   transform: scale(1.1);
 }
-/*<!-- Search Section -->*/
+/*-----------------------------------*/
 
-/* About us section */
-
-
+/* About us */
 div p {
   font-size: 18px;
   color: #6a070a;
 }
+/*-----------------------------------*/
+
 
 /* pManage section */
-
 .container-fluid {
   padding: 0 10px;
 }
@@ -274,22 +231,18 @@ div p {
   color: #8c0724;
   text-align: center;
 }
-
-/* Product Input Styles */
-
+/* Product Input form */
 .product-input {
   background: linear-gradient(45deg, #fde0c9, #ebe5de);
   padding: 20px;
   border-radius: 15px;
 }
-
 .product-input h1 {
   font-size: 32px;
   color: #8c0724;
   margin-bottom: 20px;
   border-radius: 15px;
 }
-
 .product-input label {
   display: block;
   margin-bottom: 10px;
@@ -297,7 +250,6 @@ div p {
   color: #8c0724;
   border-radius: 15px;
 }
-
 .product-input input[type="text"],
 .product-input input[type="number"],
 .product-input input[type="file"] {
@@ -309,11 +261,9 @@ div p {
   width: 300px;
   border-radius: 15px;
 }
-
 .product-input input[type="radio"] {
   margin-right: 5px;
 }
-
 .product-input button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -324,47 +274,57 @@ div p {
   font-size: 18px;
   cursor: pointer;
 }
-
 .product-input button[type="reset"] {
   margin-left: 10px;
   background-color: #ffffff;
   color: #f79489;
 }
-
 .pManage {
   color: #bd7304;
 }
 /* Existing Products Table Styles */
-
 table {
   margin-top: 50px;
 }
-
 table th,
 table td {
   text-align: center;
   font-size: 18px;
 }
-
 table th {
   background-color: #f79489;
   color: black;
 }
-
 table tr:nth-child(odd) {
   background-color: rgb(150, 219, 224);
 }
-
 table tr:hover {
   background-color: #88e2e98e;
 }
-
 table i {
   font-size: 24px;
   cursor: pointer;
   margin: 0 5px;
 }
-
 table i:hover {
   color: #f79489;
+}
+/*-----------------------------------*/
+
+/* A gradient box design */
+.review-box {
+  background: linear-gradient(45deg, #fde0c9, #ebe5de);
+  padding: 20px;
+  margin: auto 20px;
+  border-radius: 15px;
+}
+
+/* Edit the navigation bar for smaller screen */
+@media (max-width: 800px) {
+  nav {
+    flex-direction: column;
+  }
+  nav a {
+    padding: 10px;
+  }
 }

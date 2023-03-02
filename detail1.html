@@ -1,33 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="/membrain.js" type="text/JavaScript" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" defer></script>
-    <title>Details | Custom bubble tea</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"
+    defer></script>
+  <title>Details | CHANOM</title>
+  <style>
+    .carousel-item img {
+      height: 400px;
+      object-fit: cover;      /* Adjust each carousel image to have the same size */
+      border-radius: 30px;
+    }
+
+    div a {
+      margin-right: 20px;     /* Add some space between each box (order now, view on IG, ...) */
+    }
+
+    img.img-fluid {
+      height: 320px;        /* Adjust each image in a card to have the same size */
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-      <a href="index.html"><h1>CHANOM</h1></a>
-    </header>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="search.html">Search</a>
-        <a href="pManage.html">Product Management</a>
-        <a href="aboutus.html">About Us</a>
-        <a href="login.html">Log In</a>
-    </nav>
+  <header>
+    <a href="home.html">
+      <h1>CHANOM</h1>
+    </a>
+  </header>
+  <nav>
+    <a href="home.html">Home</a>
+    <a href="search.html">Search</a>
+    <a href="pManage.html">Product Management</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="login.html">Log In</a>
+  </nav>
 
-    <section class="cardContainer">
-        <div class="container" id="card" card="0"></div>;
-    </section>
+  <div class="container-fluid" style="padding: 80px;">
+    <div class="row">
+      <!-- Use Carousel to create preview images -->
+      <div class="col-5">
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img
+                src="img/detail/carousel-bubbleTea1.jpg"
+                class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+              <img
+                src="img/detail/carousel-bubbleTea2.jpg"
+                class="d-block w-100">
+            </div>
+            <div class="carousel-item">
+              <img src="img/detail/carousel-bubbleTea3.jpg" class="d-block w-100">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <!-- Product description -->
+      <div class="col" style="padding-left: 30px;">
+        <h1 style="font-size: 30px;">Classic Bubble Milk Tea</h1>
+        <div class="star" style="padding-bottom: 10px;">
+          <i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i>
+        </div>
+        <p style="font-size: 22px;">Bubble Milk Tea</p>
+        <p style="font-size: 22px;">฿ 60</p>
+        <p style="font-size: 18px; text-align: justify;">"Indulge in the sweet and refreshing taste of our signature
+          bubble tea!
+          Made with premium tea leaves and topped with chewy tapioca pearls,
+          this drink is the perfect treat to satisfy your sweet tooth. Choose from a variety of delicious flavors,
+          such as classic milk tea or fruity passionfruit, and customize your drink with your choice of toppings,
+          including fresh fruit and jelly. With each sip, you'll experience a burst of
+          flavor and a delightful texture that's sure to leave you wanting more!"
+        </p>
+        <a href="#" class="btn btn-outline-dark">Order now</a>
+        <a href="#" class="btn btn-outline-danger"><i class="bi bi-instagram"></i> View on Instagram</a>
+        <a href="#" class="btn btn-outline-primary"><i class="bi bi-twitter"></i> View on Twitter</a>
+      </div>
+    </div>
+    <div class="row" style="padding-top: 50px; padding-bottom: 30px;">
+      <h1 style="font-size: 30px;">You will also love</h1>
+    </div>
+    <!-- Another row showing some other similar products -->
+    <div class="row">
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-6">
+              <img
+                src="img/detail/card-chocolate.jpg"
+                class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-6">
+              <div class="card-body">
+                <h5 class="card-title">Chocolate Bubble Milk Tea</h5>
+                <p class="card-text">Indulge in the rich and creamy taste of our chocolate bubble milk
+                  tea! Made with premium tea leaves and blended ...</p>
+                <a class="btn btn-secondary" href="detail2.html">More Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-6">
+              <img src="img/detail/card-matcha.jpeg" class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-6">
+              <div class="card-body">
+                <h5 class="card-title">Matcha Bubble Green Tea</h5>
+                <p class="card-text">Experience the delicate and refreshing taste of our matcha bubble green tea! Made with premium
+                  matcha ...</p>
+                <a class="btn btn-secondary" href="detail3.html">More Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-6">
+              <img src="img/detail/card-oolong.avif" class="img-fluid rounded-start">
+            </div>
+            <div class="col-md-6">
+              <div class="card-body">
+                <h5 class="card-title">Oolong Bubble Milk Tea</h5>
+                <p class="card-text">Indulge in the smooth and mellow taste of our oolong bubble milk tea! Made with premium oolong tea
+                  leaves ...</p>
+                <a class="btn btn-secondary" href="detail4.html">More Detail</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2023 Copyright: CHANOM. All rights reserved.
+  </footer>
 </body>
+
 </html>
