@@ -37,7 +37,10 @@ VALUES (1, "Classic Bubble Milk Tea", "Bubble Milk Tea", "Brown Sugar", 5, 60),
 
 INSERT INTO administrator
 VALUES ("Kritchanapat", "Kritchanapat", "Junju", "2003-05-26", "kritchanapat.jun@student.mahidol.edu"),
-("Thitiwut", "Thitiwut", "Harnphatcharapanukorn", "2003-04-08", "thitiwutharn@gmail.com");
+("Thitiwut", "Thitiwut", "Harnphatcharapanukorn", "2003-04-08", "thitiwutharn@gmail.com"),
+(""),
+("")
+("");
 
 INSERT INTO logininfo
 VALUES ("Thitiwut", "Bosszahahaha55566", NULL),
