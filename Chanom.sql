@@ -39,7 +39,7 @@ INSERT INTO administrator
 VALUES ("Kritchanapat", "Kritchanapat", "Junju", "2003-05-26", "kritchanapat.jun@student.mahidol.edu"),
 ("Thitiwut", "Thitiwut", "Harnphatcharapanukorn", "2003-04-08", "thitiwutharn@gmail.com"),
 (""),
-("")
+(""),
 ("");
 
 INSERT INTO logininfo

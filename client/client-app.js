@@ -74,10 +74,11 @@ router.get('/detail5', (req, res) => {
     res.status(200).sendFile(path.join(__dirname,"/html/detail5.html"))
 })
 
+// try using axios to pull data from the database
 router.get('/test', (req, res) => {
     axios.get('http://localhost:3000/selectadmin', {responseType: 'json'})
     .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
     })
 })
 
