@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Product Management | CHANOM</title>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+</head>
+<body>
+  <header>
+    <a href="/home"><h1>CHANOM</h1></a>
+  </header>
+  <nav>
+    <a href="/home">Home</a>
+    <a href="/search">Search</a>
+    <a href="/pManage">Product Management</a>
+    <a href="/aboutus">About Us</a>
+    <a href="/login">Log In</a>
+  </nav>
+    <main class="pManage">
+      <!-- Use container from bootstrap to align the item -->
+        <div class="container-fluid" style="padding: 50px; background-color: #F8F4F1;">
+            <div class="row">
+                <div class="col-4 product-input">   <!-- col-4, col-8 is used to specify the width -->
+                    <form>  <!-- A form for administrators to add a product -->
+                        <h1>Add a Product</h1>
+                        <label for="product-input">Drink Name:</label>
+                        <input type="text" placeholder="Name" id="drinkName" required> <br>
+                        <label for="product-input">Type:</label>
+                        <input type="radio" name="drink-type" value="BMT" id="drinkType" required> Bubble Milk Tea<br>
+                        <input type="radio" name="drink-type" value="BM" id="drinkType" required> Bubble Milk <br>
+                        <input type="radio" name="drink-type" value="YF" id="drinkType" required> Fruit Youghurt Frappe <br> <br>
+                        <label for="product-input">Price:</label> 
+                        <input type="number" placeholder="Price" id="drinkPrice" required> Baht <br>
+                        <label for="product-input">Select Image:</label>
+                        <input type="file" required accept="image/png, image/jpeg"> <br>  <!-- Use "accept" to specify accepted file types -->
+                        <button type="submit">Add</button>
+                        <button type="reset" id="clear-product">Clear</button>
+                    </form>
+                </div>
+                <div class="col-8">
+                    <h1>Existing Products</h1>
+                    <!-- A table showing an existing product with option to delete and modify existing products -->
+                    <table class="table table-striped table-borderless "> 
+                        <thead class="thead-dark">
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Drink Name</th>
+                            <th scope="col">Drink Type</th>
+                            <th scope="col">Topping</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">Price (THB)</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>   <!-- empty header column for edit/remove button -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>Classic Bubble Milk Tea</td>
+                            <td>Bubble Milk Tea</td>
+                            <td>Brown Sugar</td>
+                            <td>★★★★★</td>
+                            <td>60</td>
+                            <!-- The last two column of each row will be used to modify and delete a product -->
+                            <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
+                            <td><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Chocolate Bubble Milk</td>
+                            <td>Bubble Milk</td>
+                            <td>Black Pearl</td>
+                            <td>★★★★★</td>
+                            <td>60</td>
+                            <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
+                            <td><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Matcha Bubble Milk Tea</td>
+                            <td>Bubble Milk Tea</td>
+                            <td>Black Pearl</td>
+                            <td>★★★★★</td>
+                            <td>60</td>
+                            <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
+                            <td><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>Oolong Milk Tea</td>
+                            <td>Bubble Milk Tea</td>
+                            <td>Grass Jelly</td>
+                            <td>★★★★</td>
+                            <td>60</td>
+                            <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
+                            <td><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>Strawberry Yoghurt Frappe</td>
+                            <td>Fruit Yoghurt Frappe</td>
+                            <td>-</td>
+                            <td>★★★</td>
+                            <td>55</td>
+                            <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
+                            <td><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div> 
+    </main>
+    <footer class="position-relative">
+      © 2023 Copyright: CHANOM. All rights reserved.
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>
