@@ -44,5 +44,8 @@ VALUES ("Kritchanapat", "Kritchanapat", "Junju", "2003-05-26", "kritchanapat.jun
 
 INSERT INTO logininfo
 VALUES ("Thitiwut", "Bosszahahaha55566", NULL),
-("Kritchanapat", "Earthza007", NULL);
+("Kritchanapat", "Earthza007", NULL),
+("Sirasit", "himzaza", NULL),
+("thanawat", "aritsulynn", NULL),
+("bhubodin", "songzaba", NULL);
 
