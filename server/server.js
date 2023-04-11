@@ -14,6 +14,7 @@ router.use(express.urlencoded({extended: true}));
 
 /* Connection to MySQL */
 const mysql = require('mysql2');
+const { log } = require('console');
 var connection = mysql.createConnection({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USERNAME,
@@ -100,7 +101,8 @@ router.get('/selectadmin', (req, res) => {
 
     connection.query("SELECT * FROM administrator", (error, results) => {
         if(error) throw error;
-        return res.send({error: false, data: results, message: 'admin list'})
+        res.send(results)
+        console.log("Sending result");
     })
 
 })

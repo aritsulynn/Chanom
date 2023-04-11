@@ -2,7 +2,10 @@ const express = require('express');
 const path = require('path');
 const port = 3030;
 const app = express();
-const axios = require('axios').default;     // used for WS
+const axios = require('axios').default;     // used for Web Service (get data from server.js)
+const { JSDOM } = require('jsdom');
+const fs = require('fs');
+
 
 const router = express.Router();
 app.use(router);
@@ -75,11 +78,27 @@ router.get('/detail5', (req, res) => {
 })
 
 // try using axios to pull data from the database
+// fetch is now working
 router.get('/test', (req, res) => {
     axios.get('http://localhost:3000/selectadmin', {responseType: 'json'})
-    .then((res) => {
-        console.log(res.data);
-    })
+        .then((response) => {
+            console.log(response.data);
+            const data = response.data;
+
+            fs.readFile(path.join(__dirname, "/html/uManage.html"), 'utf8', (err, html) => {
+                if (err) {
+                  throw err;
+                }
+                const dom = new JSDOM(html);
+                const output = dom.window.document.getElementById('output');
+                output.innerHTML = '<ul>';
+                output.innerHTML += '<li> Hello </li>';
+                for(var i in data) {
+                    output.innerHTML += data[i].username + " ";
+                }
+                res.send(dom.serialize());
+            });
+        })
 })
 
 // unspecified path
