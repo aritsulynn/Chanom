@@ -82,7 +82,7 @@ router.get('/selectchanom/:id', (req, res) => {
     }
     connection.query("SELECT * FROM product WHERE pID = ?", [pID], (error, results) => {
         if(error) throw error;
-        return res.send({error: false, data: results[0], message: 'Product retrieved'})
+        res.send(results)
     })
 
 })
@@ -92,7 +92,8 @@ router.get('/selectchanom', (req, res) => {
 
     connection.query("SELECT * FROM product", (error, results) => {
         if(error) throw error;
-        return res.send({error: false, data: results, message: 'product list'})
+        res.send(results);
+        console.log("Sending product result");
     })
 
 })
@@ -102,7 +103,7 @@ router.get('/selectadmin', (req, res) => {
     connection.query("SELECT * FROM administrator", (error, results) => {
         if(error) throw error;
         res.send(results)
-        console.log("Sending result");
+        console.log("Sending admin result");
     })
 
 })
