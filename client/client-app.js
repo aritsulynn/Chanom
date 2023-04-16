@@ -69,7 +69,7 @@ router.get('/detail/:id', (req, res) => {
                 
                 output.innerHTML = "";
                 // add page content with the retrieved data
-                output.innerHTML += `<div class="container-fluid" style="padding: 80px;">
+                output.innerHTML += `
                 <div class="row">
                   <!-- Use Carousel to create preview images -->
                   <div class="col-5">
@@ -122,7 +122,63 @@ router.get('/detail/:id', (req, res) => {
                 </div>
                 <div class="row" style="padding-top: 50px; padding-bottom: 30px;">
                   <h1 style="font-size: 30px;">You will also love</h1>
-                </div>`
+                </div>
+                <div class="row">
+                <div class="col">
+                  <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-md-6">
+                        <img
+                          src="img/detail/card-chocolate.jpg"
+                          class="img-fluid rounded-start">
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card-body">
+                          <h5 class="card-title">Chocolate Bubble Milk Tea</h5>
+                          <p class="card-text">Indulge in the rich and creamy taste of our chocolate bubble milk
+                            tea! Made with premium tea leaves and blended ...</p>
+                          <a class="btn btn-secondary" href="/detail/2">More Detail</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-md-6">
+                        <img src="img/detail/card-matcha.jpeg" class="img-fluid rounded-start">
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card-body">
+                          <h5 class="card-title">Matcha Bubble Green Tea</h5>
+                          <p class="card-text">Experience the delicate and refreshing taste of our matcha bubble green tea! Made with premium
+                            matcha ...</p>
+                          <a class="btn btn-secondary" href="/detail/3">More Detail</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-md-6">
+                        <img src="img/detail/card-oolong.avif" class="img-fluid rounded-start">
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card-body">
+                          <h5 class="card-title">Oolong Bubble Milk Tea</h5>
+                          <p class="card-text">Indulge in the smooth and mellow taste of our oolong bubble milk tea! Made with premium oolong tea
+                            leaves ...</p>
+                          <a class="btn btn-secondary" href="/detail/4">More Detail</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
                 
                 res.send(dom.serialize());  // sending the modified html file
             });
