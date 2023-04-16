@@ -13,7 +13,7 @@ app.use(router);
 
 // set the static file directory
 app.use('/', express.static(path.join(__dirname,'/static')));
-app.use('/detail/', express.static(path.join(__dirname,'/static')));
+app.use('/detail', express.static(path.join(__dirname,'/static')));
 
 // This is needed for POST method
 router.use(express.json());
@@ -54,6 +54,7 @@ router.get('/uManage', (req, res) => {
     res.status(200).sendFile(path.join(__dirname,"/html/uManage.html"))
 })
 
+// get detail page for each product ID
 router.get('/detail/:id', (req, res) => {
     const id = req.params.id;
     axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
@@ -178,18 +179,75 @@ router.get('/detail/:id', (req, res) => {
                   </div>
                 </div>
               </div>
-            </div>`
+            </div>`;
                 
                 res.send(dom.serialize());  // sending the modified html file
             });
         })
 })
 
+// search function
+router.get('/search-submit', (req, res) => {
+  console.log(req.query);
+  const pName = req.query.pName;
+  const pType = req.query.pType;
+  const topping = req.query.topping;
+  const rating = req.query.rating;
+
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+      
+      const data = response.data;
+
+      // filter the search result based on the provided query parameters
+      const filteredData = data.filter(item => {
+          return (!pName || item.pName.toLowerCase().includes(pName.toLowerCase())) &&
+              (!pType || item.pType == pType) &&
+              (!topping || item.topping == topping) &&
+              (!rating || item.rating === parseInt(rating));
+      });
+      console.log(filteredData);
+
+      fs.readFile(path.join(__dirname, "/html/search.html"), 'utf8', (err, html) => {
+          if (err) {
+            throw err;
+          }
+          const dom = new JSDOM(html);
+          const output = dom.window.document.getElementById('searchResult');
+          
+          output.innerHTML = "";
+          var child = `<div class="container-fluid" style="padding-left:100px; padding-right: 100px; padding-bottom: 50px">
+          <div class="row">`;
+          for(var i in filteredData) {
+            child += `
+            <div class="col">
+              <!-- Use card to display search results -->
+              <div class="card">
+                <img
+                  src="${filteredData[i].pic1}"
+                  class="card-img-top" />
+                <div class="card-body">
+                  <h5 class="card-title">${filteredData[i].pName}</h5>
+                  <p style="font-size: 18px;">${filteredData[i].pType}</p>
+                  <p style="font-size: 18px;">Rating: ${filteredData[i].rating}/5</p>
+                  <a href="/detail/${filteredData[i].pID}" class="btn btn-secondary">More Detail</a>
+                </div>
+              </div>
+            </div>
+          `;
+          }
+          // add page content with the retrieved data
+          output.innerHTML += child;
+          res.send(dom.serialize());  // sending the modified html file
+      });
+  })
+})
+
+
 // unspecified path
-/*router.use((req, res, next) => {
-    console.log("404: Invalid accessed");
-    res.status(404).send("Error")
-})*/
+app.get('*', function(req, res){
+  res.status(404).send('404 - Page not found');
+});
 
 app.listen(port, () => {
     console.log('Server listening on port: ' + port);

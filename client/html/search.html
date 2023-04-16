@@ -35,32 +35,32 @@
   </nav>
 
   <!-- Search Section -->
-  <form action="" id="search-form">
+  <form action="/search-submit" method="GET" id="search-form">
     <h2>Choose your drink</h2>
-    <input type="text-search" placeholder="What would you like to drink?"> <br>
+    <input type="text-search" id="pName" name="pName" placeholder="What would you like to drink?"> <br>
     <!-- Use <select> tag to create a drop down list for selection -->
-    <label for="type">Type</label>
-    <select name="type" id="search-select">
-      <option value="none">None</option>
-      <option value="">Bubble Milk Tea</option>
-      <option value="">Bubble Milk</option>
-      <option value="">Fruit Youghurt Frappe</option>
+    <label for="pType">Type</label>
+    <select name="pType" id="search-select pType">
+      <option value="">None</option>
+      <option value="Bubble Milk Tea">Bubble Milk Tea</option>
+      <option value="Bubble Milk">Bubble Milk</option>
+      <option value="Fruit Yoghurt Frappe">Fruit Yoghurt Frappe</option>
     </select>
     <label for="topping">Topping</label>
-    <select name="topping" id="search-select">
-      <option value="none">None</option>
-      <option value="">Black Pearl</option>
-      <option value="">Grass Jelly</option>
-      <option value="">Brown Sugar</option>
+    <select name="topping" id="search-select topping">
+      <option value="">None</option>
+      <option value="Black Pearl">Black Pearl</option>
+      <option value="Grass Jelly">Grass Jelly</option>
+      <option value="Brown Sugar">Brown Sugar</option>
     </select>
     <label for="rating">Rating</label>
-    <select name="rating" id="search-select">
-      <option value="none">None</option>
-      <option value="">★★★★★</option>
-      <option value="">★★★★</option>
-      <option value="">★★★</option>
-      <option value="">★★</option>
-      <option value="">★</option>
+    <select name="rating" id="search-select rating">
+      <option value="">None</option>
+      <option value="5">★★★★★</option>
+      <option value="4">★★★★</option>
+      <option value="3">★★★</option>
+      <option value="2">★★</option>
+      <option value="1">★</option>
     </select>
     <br>
     <button type="submit" id="search-btn">Search</button> 
@@ -70,64 +70,11 @@
   <section style="text-align: center; padding: 30px; color: #8c0724;">
     <h3>Search Results</h3>
   </section>
-  <!-- Use container from Bootstrap to align the elements -->
-  <div class="container-fluid" style="padding-left:100px; padding-right: 100px;">
-    <div class="row">
-      <div class="col">
-        <!-- Use card to display search results -->
-        <div class="card">
-          <img
-            src="/img/search-card/bubbleTea.jpg"
-            class="card-img-top" />
-          <div class="card-body">
-            <h5 class="card-title">Classic Bubble Milk Tea</h5>
-            <a href="/detail1" class="btn btn-secondary">More Detail</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img
-            src="/img/search-card/chocholateTea.jpg"
-            class="card-img-top" />
-          <div class="card-body">
-            <h5 class="card-title">Chocolate Bubble Milk Tea</h5>
-            <a href="/detail2" class="btn btn-secondary">More Detail</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="/img/search-card/matchaTea.jpg" class="card-img-top" />
-          <div class="card-body">
-            <h5 class="card-title">Matcha Bubble Green Tea</h5>
-            <a href="/detail3" class="btn btn-secondary">More Detail</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="/img/search-card/oolongTea.jpg"
-            class="card-img-top" />
-          <div class="card-body">
-            <h5 class="card-title">Oolong Bubble Milk Tea</h5>
-            <a href="/detail4" class="btn btn-secondary">More Detail</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="/img/search-card/strawberryFrappe.jpg"
-            class="card-img-top" />
-          <div class="card-body">
-            <h5 class="card-title">Strawberry Yoghurt Frappe</h5>
-            <a href="/detail5" class="btn btn-secondary">More Detail</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <footer style="margin-top: 50px;">
+  
+  <!-- Get search result -->
+  <div id="searchResult"></div>
+
+  <footer class="footer">
     © 2023 Copyright: CHANOM. All rights reserved.
   </footer>
 </body>

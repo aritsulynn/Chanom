@@ -43,7 +43,6 @@ router.get('/selectchanom/:id', (req, res) => {
         res.json(results[0]);
         console.log("Sending product result");
     })
-
 })
 
 // select all
