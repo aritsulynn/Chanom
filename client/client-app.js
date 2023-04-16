@@ -54,56 +54,6 @@ router.get('/uManage', (req, res) => {
     res.status(200).sendFile(path.join(__dirname,"/html/uManage.html"))
 })
 
-router.get('/detail1', (req, res) => {
-    console.log("Request at /detail1");
-    res.status(200).sendFile(path.join(__dirname,"/html/detail1.html"))
-})
-
-router.get('/detail2', (req, res) => {
-    console.log("Request at /detail2");
-    res.status(200).sendFile(path.join(__dirname,"/html/detail2.html"))
-})
-
-router.get('/detail3', (req, res) => {
-    console.log("Request at /detail3");
-    res.status(200).sendFile(path.join(__dirname,"/html/detail3.html"))
-})
-
-router.get('/detail4', (req, res) => {
-    console.log("Request at /detail4");
-    res.status(200).sendFile(path.join(__dirname,"/html/detail4.html"))
-})
-
-router.get('/detail5', (req, res) => {
-    console.log("Request at /detail5");
-    res.status(200).sendFile(path.join(__dirname,"/html/detail5.html"))
-})
-
-// try using axios to pull data from the database
-// fetch is now working
-router.get('/test', (req, res) => {
-    axios.get('http://localhost:3000/selectchanom', {responseType: 'json'})
-        .then((response) => {
-            console.log(response.data);
-            const data = response.data;
-
-            fs.readFile(path.join(__dirname, "/html/uManage.html"), 'utf8', (err, html) => {
-                if (err) {
-                  throw err;
-                }
-                const dom = new JSDOM(html);
-                const output = dom.window.document.getElementById('output');
-                for(var i in data) {
-                    output.innerHTML += '<h2>'+ data[i].pName +'</h2>';
-                    output.innerHTML += "<img src='" + data[i].pic1 + "' style = 'width: 500px; height: 400px'>";
-                    output.innerHTML += '<p>' + data[i].pDescription;
-                }
-                
-                res.send(dom.serialize());  // sending the modified html file
-            });
-        })
-});
-
 router.get('/detail/:id', (req, res) => {
     const id = req.params.id;
     axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})

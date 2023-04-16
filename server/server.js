@@ -31,48 +31,6 @@ router.get('/', (req, res) => {
     res.send("Hello world");
 })
 
-// insert
-router.post('/insert', (req, res) => {
-    let student = req.body.student
-
-    if(!student) {
-        return res.status(400).send({error: true, message: 'Please provide student information'})
-    }
-
-    connection.query("INSERT INTO personal_info SET ? ", student, (error, results) => {
-        if(error) throw error;
-        return res.send({error: false, data: results.affectedRows, message: 'New student has been added successfully'})
-    })
-})
-
-// update
-router.put('/update', (req, res) => {
-    console.log(req.body.student);
-    let student_id = req.body.student.StudentID;
-    let student = req.body.student;
-
-    if(!student_id || !student) {
-        return res.status(400).send({error: true, message: 'Please provide student information'})
-    }
-
-    connection.query("UPDATE personal_info SET ? WHERE StudentID = ?", [student, student_id], (error, results) => {
-        if(error) throw error;
-        return res.send({error: false, data: results.affectedRows, message: 'Student has been updated successfully'})
-    })
-})
-
-// delete
-router.delete('/delete', (req, res) => {
-    let student_id = req.body.student.StudentID;
-    if(!student_id) {
-        return res.status(400).send({error: true, message: 'Please provide student information'})
-    }
-    connection.query("DELETE FROM personal_info WHERE StudentID = ?", [student_id], (error, results) => {
-        if(error) throw error;
-        return res.send({error: false, data: results.affectedRows, message: 'Student has been deleted successfully'})
-    })
-})
-
 // select
 router.get('/selectchanom/:id', (req, res) => {
     let pID = req.params.id;
@@ -82,7 +40,8 @@ router.get('/selectchanom/:id', (req, res) => {
     }
     connection.query("SELECT * FROM product WHERE pID = ?", [pID], (error, results) => {
         if(error) throw error;
-        res.json(results[0])
+        res.json(results[0]);
+        console.log("Sending product result");
     })
 
 })
@@ -92,7 +51,7 @@ router.get('/selectchanom', (req, res) => {
 
     connection.query("SELECT * FROM product", (error, results) => {
         if(error) throw error;
-        res.send(results);
+        res.json(results);
         console.log("Sending product result");
     })
 
@@ -105,7 +64,6 @@ router.get('/selectadmin', (req, res) => {
         res.send(results)
         console.log("Sending admin result");
     })
-
 })
 
 app.listen(process.env.PORT, function() {
