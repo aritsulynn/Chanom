@@ -24,7 +24,7 @@
         <div class="container-fluid" style="padding: 50px; background-color: #F8F4F1;">
             <div class="row">
                 <div class="col-4 product-input">   <!-- col-4, col-8 is used to specify the width -->
-                    <form action="/insert" method="POST">  <!-- A form for administrators to add a product -->
+                    <form action="/product-insert" method="POST">  <!-- A form for administrators to add a product -->
                         <h1>Add a Product</h1>
                         <label for="product-input">Drink Name:</label>
                         <input type="text" placeholder="Name" id="drinkName" name="pName" required> <br>
@@ -33,9 +33,9 @@
                         <input type="radio" name="pType" value="Bubble Milk" id="drinkType" required> Bubble Milk <br>
                         <input type="radio" name="pType" value="Fruit Yoghurt Frappe" id="drinkType" required> Fruit Yoghurt Frappe <br> <br>
                         <label for="product-input">Topping:</label>
-                        <input type="radio" name="topping" value="Black Pearl" id="drinkType" required> Black Pearl<br>
-                        <input type="radio" name="topping" value="Grass Jelly" id="drinkType" required> Grass Jelly <br>
-                        <input type="radio" name="topping" value="Brown Sugar" id="drinkType" required> Brown Sugar <br> <br>
+                        <input type="radio" name="topping" value="Black Pearl" id="drinkType"> Black Pearl<br>
+                        <input type="radio" name="topping" value="Grass Jelly" id="drinkType"> Grass Jelly <br>
+                        <input type="radio" name="topping" value="Brown Sugar" id="drinkType"> Brown Sugar <br> <br>
                         <label for="product-input">Rating:</label> 
                         <input type="number" placeholder="Rating" min="1" max="5" name="rating" id="drinkRating" required> stars <br>                       
                         <label for="product-input">Description:</label>

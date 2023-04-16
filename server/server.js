@@ -70,6 +70,17 @@ router.post('/insertchanom', (req, res) => {
 
 })
 
+router.delete('/deletechanom/:id', (req, res) => {
+    let pID = req.params.id;
+    if(!pID) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
+    }
+    connection.query("DELETE FROM product WHERE pID = ?", [pID], (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'Product has been deleted successfully'})
+    })
+})
+
 router.get('/selectadmin', (req, res) => {
 
     connection.query("SELECT * FROM administrator", (error, results) => {

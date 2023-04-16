@@ -266,14 +266,14 @@ router.get('/pManage', (req, res) => {
           for(var i in data) {
             child += `<tr>
             <th scope="row">${data[i].pID}</th>
-            <td>${data[i].pName}</td>
+            <td><a href="/detail/${data[i].pID}" style="">${data[i].pName}</a></td>
             <td>${data[i].pType}</td>
             <td>${data[i].topping}</td>
             <td>${data[i].rating}</td>
             <td>${data[i].price}</td>
             <!-- The last two column of each row will be used to modify and delete a product -->
             <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
-            <td><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></td>
+            <td><a href="/product-delete/${data[i].pID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
           </tr>`;
           }
           
@@ -285,13 +285,22 @@ router.get('/pManage', (req, res) => {
 })
 
 // insert product into the database
-router.post('/insert', (req, res) => {
+router.post('/product-insert', (req, res) => {
   var data = req.body;
   console.log(data);
   
   axios.post("http://localhost:3000/insertchanom", data)
   .then((response) => {
-    console.log(response);
+    //console.log(response);
+    res.redirect("/pManage");
+  })
+})
+
+// delete a product based on product ID
+router.get('/product-delete/:id', (req, res) => {
+  const id = req.params.id;
+  axios.delete(`http://localhost:3000/deletechanom/${id}`)
+  .then((response) => {
     res.redirect("/pManage");
   })
 })
