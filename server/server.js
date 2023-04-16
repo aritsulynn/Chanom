@@ -82,7 +82,7 @@ router.get('/selectchanom/:id', (req, res) => {
     }
     connection.query("SELECT * FROM product WHERE pID = ?", [pID], (error, results) => {
         if(error) throw error;
-        res.send(results)
+        res.json(results[0])
     })
 
 })

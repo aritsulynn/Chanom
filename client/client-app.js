@@ -5,6 +5,7 @@ const app = express();
 const axios = require('axios').default;     // used for Web Service (get data from server.js)
 const { JSDOM } = require('jsdom');
 const fs = require('fs');
+const { log } = require('console');
 
 
 const router = express.Router();
@@ -12,7 +13,7 @@ app.use(router);
 
 // set the static file directory
 app.use('/', express.static(path.join(__dirname,'/static')));
-app.use('/detail', express.static(path.join(__dirname,'/static')));
+app.use('/detail/', express.static(path.join(__dirname,'/static')));
 
 // This is needed for POST method
 router.use(express.json());
@@ -103,12 +104,12 @@ router.get('/test', (req, res) => {
         })
 });
 
-router.get('/detail/1', (req, res) => {
-    axios.get('http://localhost:3000/selectchanom/1', {responseType: 'json'})
+router.get('/detail/:id', (req, res) => {
+    const id = req.params.id;
+    axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
         .then((response) => {
-            //console.log(response.data);
+            console.log(response.data);
             const data = response.data;
-
             fs.readFile(path.join(__dirname, "/html/detail.html"), 'utf8', (err, html) => {
                 if (err) {
                   throw err;
@@ -126,16 +127,16 @@ router.get('/detail/1', (req, res) => {
                       <div class="carousel-inner">
                         <div class="carousel-item active">
                           <img
-                            src="${data[0].pic1}"
+                            src="${data.pic1}"
                             class="d-block w-100">
                         </div>
                         <div class="carousel-item">
                           <img
-                            src="${data[0].pic2}"
+                            src="${data.pic2}"
                             class="d-block w-100">
                         </div>
                         <div class="carousel-item">
-                          <img src="${data[0].pic3}" class="d-block w-100">
+                          <img src="${data.pic3}" class="d-block w-100">
                         </div>
                       </div>
                       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
@@ -152,7 +153,7 @@ router.get('/detail/1', (req, res) => {
                   </div>
                   <!-- Product description -->
                   <div class="col" style="padding-left: 30px;">
-                    <h1 style="font-size: 30px;">${data[0].pName}</h1>
+                    <h1 style="font-size: 30px;">${data.pName}</h1>
                     <div class="star" style="padding-bottom: 10px;">
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
@@ -160,9 +161,9 @@ router.get('/detail/1', (req, res) => {
                       <i class="bi bi-star-fill"></i>
                       <i class="bi bi-star-fill"></i>
                     </div>
-                    <p style="font-size: 22px;">${data[0].pType}</p>
-                    <p style="font-size: 22px;">฿ ${data[0].price}</p>
-                    <p style="font-size: 18px; text-align: justify;">"${data[0].pDescription}"
+                    <p style="font-size: 22px;">${data.pType}</p>
+                    <p style="font-size: 22px;">฿ ${data.price}</p>
+                    <p style="font-size: 18px; text-align: justify;">"${data.pDescription}"
                     </p>
                     <a href="#" class="btn btn-outline-dark">Order now</a>
                     <a href="#" class="btn btn-outline-danger"><i class="bi bi-instagram"></i> View on Instagram</a>
@@ -173,7 +174,7 @@ router.get('/detail/1', (req, res) => {
                   <h1 style="font-size: 30px;">You will also love</h1>
                 </div>`
                 
-                res.status(200).send(dom.serialize());  // sending the modified html file
+                res.send(dom.serialize());  // sending the modified html file
             });
         })
 })
