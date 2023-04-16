@@ -252,13 +252,13 @@ div p {
 }
 .product-input input[type="text"],
 .product-input input[type="number"],
-.product-input input[type="file"] {
+.product-input input[type="file"], textarea {
   margin-bottom: 20px;
   padding: 10px;
   border-radius: 5px;
   border: none;
-  font-size: 18px;
-  width: 300px;
+  font-size: 15px;
+  width: 350px;
   border-radius: 15px;
 }
 .product-input input[type="radio"] {

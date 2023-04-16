@@ -35,18 +35,13 @@ router.get('/search', (req, res) => {
 })
 
 router.get('/login', (req, res) => {
-    console.log("Request at /signin");
+    console.log("Request at /login");
     res.status(200).sendFile(path.join(__dirname,"/html/login.html"))
 })
 
 router.get('/aboutus', (req, res) => {
     console.log("Request at /aboutus");
     res.status(200).sendFile(path.join(__dirname,"/html/aboutus.html"))
-})
-
-router.get('/pManage', (req, res) => {
-    console.log("Request at /pManage");
-    res.status(200).sendFile(path.join(__dirname,"/html/pManage.html"))
 })
 
 router.get('/uManage', (req, res) => {
@@ -105,13 +100,7 @@ router.get('/detail/:id', (req, res) => {
                   <!-- Product description -->
                   <div class="col" style="padding-left: 30px;">
                     <h1 style="font-size: 30px;">${data.pName}</h1>
-                    <div class="star" style="padding-bottom: 10px;">
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                      <i class="bi bi-star-fill"></i>
-                    </div>
+                    <p style="font-size: 22px;">Rating: ${data.rating} / 5</p>
                     <p style="font-size: 22px;">${data.pType}</p>
                     <p style="font-size: 22px;">฿ ${data.price}</p>
                     <p style="font-size: 18px; text-align: justify;">"${data.pDescription}"
@@ -243,6 +232,69 @@ router.get('/search-submit', (req, res) => {
   })
 })
 
+// product management page
+router.get('/pManage', (req, res) => {
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+      
+      const data = response.data;
+      //console.log(data);
+
+      fs.readFile(path.join(__dirname, "/html/pManage.html"), 'utf8', (err, html) => {
+          if (err) {
+            throw err;
+          }
+          const dom = new JSDOM(html);
+          const output = dom.window.document.getElementById('pTable');
+
+          output.innerHTML = "";
+          var child = `<table class="table table-striped table-borderless "> 
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Drink Name</th>
+              <th scope="col">Drink Type</th>
+              <th scope="col">Topping</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Price (THB)</th>
+              <th scope="col"></th>
+              <th scope="col"></th>   <!-- empty header column for edit/remove button -->
+            </tr>
+          </thead>
+          <tbody>`;
+
+          for(var i in data) {
+            child += `<tr>
+            <th scope="row">${data[i].pID}</th>
+            <td>${data[i].pName}</td>
+            <td>${data[i].pType}</td>
+            <td>${data[i].topping}</td>
+            <td>${data[i].rating}</td>
+            <td>${data[i].price}</td>
+            <!-- The last two column of each row will be used to modify and delete a product -->
+            <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
+            <td><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></td>
+          </tr>`;
+          }
+          
+          // add page content with the retrieved data
+          output.innerHTML += child;
+          res.send(dom.serialize());  // sending the modified html file
+      });
+  })
+})
+
+// insert product into the database
+router.post('/insert', (req, res) => {
+  var data = req.body;
+  console.log(data);
+  
+  axios.post("http://localhost:3000/insertchanom", data)
+  .then((response) => {
+    console.log(response);
+    res.redirect("/pManage");
+  })
+})
 
 // unspecified path
 app.get('*', function(req, res){

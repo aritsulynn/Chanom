@@ -56,6 +56,20 @@ router.get('/selectchanom', (req, res) => {
 
 })
 
+router.post('/insertchanom', (req, res) => {
+    let data = req.body;
+
+    if(!data) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
+    }
+
+    connection.query(`INSERT INTO product SET ? `, data, (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'New product has been added successfully'})
+    })
+
+})
+
 router.get('/selectadmin', (req, res) => {
 
     connection.query("SELECT * FROM administrator", (error, results) => {
