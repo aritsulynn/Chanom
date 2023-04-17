@@ -81,6 +81,19 @@ router.delete('/deletechanom/:id', (req, res) => {
     })
 })
 
+router.put('/updatechanom/:id', (req, res) => {
+    let pID = req.params.id;
+    let product = req.body;
+
+    if(!pID || !product) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
+    }
+    connection.query("UPDATE product SET ? WHERE pID = ?", [product, pID], (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'Product has been updated successfully'})
+    })
+})
+
 router.get('/selectadmin', (req, res) => {
 
     connection.query("SELECT * FROM administrator", (error, results) => {

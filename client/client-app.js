@@ -13,6 +13,7 @@ app.use(router);
 // set the static file directory
 app.use('/', express.static(path.join(__dirname,'/static')));
 app.use('/detail', express.static(path.join(__dirname,'/static')));
+app.use('/pManage', express.static(path.join(__dirname,'/static')));
 
 // This is needed for POST method
 router.use(express.json());
@@ -308,7 +309,7 @@ router.get('/pManage', (req, res) => {
             <td>${data[i].rating}</td>
             <td>${data[i].price}</td>
             <!-- The last two column of each row will be used to modify and delete a product -->
-            <td><i class="bi bi-pencil-square" style="background-color: transparent;"></i></td>
+            <td><a href=/pManage/edit/${data[i].pID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
             <td><a href="/product-delete/${data[i].pID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
           </tr>`;
           }
@@ -340,6 +341,86 @@ router.get('/product-delete/:id', (req, res) => {
     res.redirect("/pManage");
   })
 })
+
+// get an edit page for each product
+router.get('/pManage/edit/:id', (req, res) => {
+  const id = req.params.id;
+  axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
+  .then((response) => {
+    console.log(response.data);
+    const data = response.data;
+    
+    fs.readFile(path.join(__dirname, "/html/pEdit.html"), 'utf8', (err, html) => {
+      if (err) {
+        throw err;
+      }
+      const dom = new JSDOM(html);
+      const output = dom.window.document.getElementById('output');
+      const form = dom.window.document.getElementById('inputForm');
+
+      form.innerHTML += `<form action="/product-update/${data.pID}" method="POST">  <!-- A form for administrators to edit a product -->
+      <h1>Editing a product</h1>
+      <label for="product-input">Drink Name:</label>
+      <input type="text" placeholder="Name" value="${data.pName}" id="drinkName" name="pName" required> <br>
+      <label for="product-input">Type:</label>
+      <input type="radio" name="pType" value="Bubble Milk Tea" id="drinkType" required> Bubble Milk Tea<br>
+      <input type="radio" name="pType" value="Bubble Milk" id="drinkType" required> Bubble Milk <br>
+      <input type="radio" name="pType" value="Fruit Yoghurt Frappe" id="drinkType" required> Fruit Yoghurt Frappe <br> <br>
+      <label for="product-input">Topping:</label>
+      <input type="radio" name="topping" value="Black Pearl" id="drinkType"> Black Pearl<br>
+      <input type="radio" name="topping" value="Grass Jelly" id="drinkType"> Grass Jelly <br>
+      <input type="radio" name="topping" value="Brown Sugar" id="drinkType"> Brown Sugar <br> <br>
+      <label for="product-input">Rating:</label> 
+      <input type="number" placeholder="Rating" min="1" max="5" value="${data.rating}" name="rating" id="drinkRating" required> stars <br>                       
+      <label for="product-input">Description:</label>
+      <textarea required name="pDescription" placeholder="Description">${data.pDescription}</textarea><br>
+      <label for="product-input">Image URLs:</label>
+      <input type="text" required style="height: fit-content;" name="pic1" placeholder="Image 1" value="${data.pic1}"> <br>
+      <input type="text" required style="height: fit-content;" name="pic2" placeholder="Image 2" value="${data.pic2}"> <br>
+      <input type="text" required style="height: fit-content;" name="pic3" placeholder="Image 3" value="${data.pic3}"> <br>
+      <label for="product-input">Price:</label> 
+      <input type="number" placeholder="Price" name="price" id="drinkPrice" required value="${data.price}"> Baht <br>
+      <button type="submit">Confirm</button>
+      <button type="reset" id="clear-product">Clear</button>
+  </form>`
+
+      output.innerHTML = "";
+      var child = `<div class="col" style="padding: 30px;">
+      <h1 style="font-size: 30px; text-align: left;">${data.pName}</h1>
+      <p style="font-size: 22px;">Rating: ${data.rating} / 5</p>
+      <p style="font-size: 22px;">${data.pType}</p>
+      <p style="font-size: 22px;">฿ ${data.price}</p>
+      <p style="font-size: 22px;">Topping: ${data.topping}</p>
+      <p style="font-size: 18px; text-align: justify;">"${data.pDescription}"</p>
+      <img src="${data.pic1}" style="width: 250px; height: 175px; border-radius: 10px;">
+      <img src="${data.pic2}" style="width: 250px; height: 175px; border-radius: 10px;">
+      <img src="${data.pic3}" style="width: 250px; height: 175px; border-radius: 10px;"> <br><br>
+      <p style="font-size: 18px;">Image 1: ${data.pic1}</p>
+      <p style="font-size: 18px;">Image 2: ${data.pic2}</p>
+      <p style="font-size: 18px;">Image 3: ${data.pic3}</p>
+    </div>
+  </div>`;
+      
+      // add page content with the retrieved data
+      output.innerHTML += child;
+      res.send(dom.serialize());  // sending the modified html file
+  });
+  })
+})
+
+// update a product based on product ID
+router.post('/product-update/:id', (req, res) => {
+  var pID = req.params.id;
+  var data = req.body;
+  console.log(data);
+  
+  axios.put(`http://localhost:3000/updatechanom/${pID}`, data)
+  .then((response) => {
+    //console.log(response);
+    res.redirect("/pManage");
+  })
+})
+
 
 // unspecified path
 app.get('*', function(req, res){
