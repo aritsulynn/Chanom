@@ -5,7 +5,6 @@ const app = express();
 const axios = require('axios').default;     // used for Web Service (get data from server.js)
 const { JSDOM } = require('jsdom');
 const fs = require('fs');
-const { log } = require('console');
 
 
 const router = express.Router();
@@ -22,11 +21,6 @@ router.use(express.urlencoded({extended: true}));
 router.get('/', (req, res) => {
     console.log("Request at /");
     res.status(200).send("Hello World! in plain text");
-})
-
-router.get('/home', (req, res) => {
-    console.log("Request at /home");
-    res.status(200).sendFile(path.join(__dirname,"/html/home.html"))
 })
 
 router.get('/search', (req, res) => {
@@ -47,6 +41,50 @@ router.get('/aboutus', (req, res) => {
 router.get('/uManage', (req, res) => {
     console.log("Request at /uManage");
     res.status(200).sendFile(path.join(__dirname,"/html/uManage.html"))
+})
+
+router.get('/home', (req, res) => {
+  console.log('Request at /home');
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+      
+      const data = response.data;
+      //console.log(data);
+
+      // load the html file then add 5 recommended products from the database
+      fs.readFile(path.join(__dirname, "/html/home.html"), 'utf8', (err, html) => {
+          if (err) {
+            throw err;
+          }
+          const dom = new JSDOM(html);
+          const output = dom.window.document.getElementById('recommend');
+
+          output.innerHTML = ``;
+          
+          var child = `<div class="container-fluid"><div class="row" style="padding: 50px;">`;
+          for(var i = 0; i < 5; i++) {
+            child += `<div class="col">
+            <!-- Use card to display each drink items -->
+            <div class="card">  
+              <img src="${data[i].pic1}" class="card-img-top"/>
+              <div class="card-body">
+                <h5 class="card-title">${data[i].pName}</h5>
+                <p class="card-text">
+                  Our original classic ${data[i].pName}
+                </p>
+                <a href="/detail/${data[i].pID}" class="btn btn-secondary">More Detail</a>
+                <!-- .btn adds button style to the <a> tag -->
+                <!-- .btn-secondary is the secondary color from Bootstrap making our button grey -->
+              </div>
+            </div>
+          </div>`;
+          }
+
+          // add page content with the retrieved data
+          output.innerHTML += child + "</div>";
+          res.send(dom.serialize());  // sending the modified html file
+      });
+  })
 })
 
 // get detail page for each product ID
@@ -205,13 +243,11 @@ router.get('/search-submit', (req, res) => {
           const output = dom.window.document.getElementById('searchResult');
           
           output.innerHTML = "";
-          var child = `<div class="container-fluid" style="padding-left:100px; padding-right: 100px; padding-bottom: 50px">
-          <div class="row">`;
+          var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
           for(var i in filteredData) {
             child += `
-            <div class="col">
               <!-- Use card to display search results -->
-              <div class="card">
+              <div class="card" style="width: 15rem; margin: 10px">
                 <img
                   src="${filteredData[i].pic1}"
                   class="card-img-top" />
@@ -222,7 +258,6 @@ router.get('/search-submit', (req, res) => {
                   <a href="/detail/${filteredData[i].pID}" class="btn btn-secondary">More Detail</a>
                 </div>
               </div>
-            </div>
           `;
           }
           // add page content with the retrieved data
@@ -234,6 +269,7 @@ router.get('/search-submit', (req, res) => {
 
 // product management page
 router.get('/pManage', (req, res) => {
+  console.log('Request at /pManage');
   axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
   .then((response) => {
       

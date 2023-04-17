@@ -1,1 +1,1 @@
-Search, detail page, pManage(Insert, Delete) done!
+Homepage, Search, detail page, pManage(Insert, Delete) done!
