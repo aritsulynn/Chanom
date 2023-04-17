@@ -24,11 +24,6 @@ router.get('/', (req, res) => {
     res.status(200).send("Hello World! in plain text");
 })
 
-router.get('/search', (req, res) => {
-    console.log("Request at /search");
-    res.status(200).sendFile(path.join(__dirname,"/html/search.html"))
-})
-
 router.get('/login', (req, res) => {
     console.log("Request at /login");
     res.status(200).sendFile(path.join(__dirname,"/html/login.html"))
@@ -141,6 +136,7 @@ router.get('/detail/:id', (req, res) => {
                     <h1 style="font-size: 30px;">${data.pName}</h1>
                     <p style="font-size: 22px;">Rating: ${data.rating} / 5</p>
                     <p style="font-size: 22px;">${data.pType}</p>
+                    <p style="font-size: 22px;">Available Topping: ${data.topping}</p>
                     <p style="font-size: 22px;">฿ ${data.price}</p>
                     <p style="font-size: 18px; text-align: justify;">"${data.pDescription}"
                     </p>
@@ -208,10 +204,49 @@ router.get('/detail/:id', (req, res) => {
                 </div>
               </div>
             </div>`;
-                
                 res.send(dom.serialize());  // sending the modified html file
             });
         })
+})
+
+// get search page
+router.get('/search', (req, res) => {
+  console.log("Request at /search");
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+    const data = response.data;
+
+    fs.readFile(path.join(__dirname, "/html/search.html"), 'utf8', (err, html) => {
+      if (err) {
+        throw err;
+      }
+      const dom = new JSDOM(html);
+      const output = dom.window.document.getElementById('searchResult');
+      
+      output.innerHTML = "";
+      var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
+      for(var i=0; i<5; i++) {
+        child += `
+          <!-- Use card to display search results -->
+          <div class="card" style="width: 15rem; margin: 10px">
+            <img
+              src="${data[i].pic1}"
+              class="card-img-top" />
+            <div class="card-body">
+              <h5 class="card-title">${data[i].pName}</h5>
+              <p style="font-size: 18px;">${data[i].pType}</p>
+              <p style="font-size: 18px;">Topping: ${data[i].topping}</p>
+              <p style="font-size: 18px;">Rating: ${data[i].rating}/5</p>
+              <a href="/detail/${data[i].pID}" class="btn btn-secondary">More Detail</a>
+            </div>
+          </div>
+      `;
+      }
+      // add page content with the retrieved data
+      output.innerHTML += child;
+      res.send(dom.serialize());  // sending the modified html file
+  });
+  })
 })
 
 // search function
@@ -245,6 +280,9 @@ router.get('/search-submit', (req, res) => {
           
           output.innerHTML = "";
           var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
+          if(filteredData == "") {  // in case search not found
+            child = `<h1 style="text-align: center; padding: 50px;">No results found</h1>`;
+          }
           for(var i in filteredData) {
             child += `
               <!-- Use card to display search results -->
@@ -255,6 +293,7 @@ router.get('/search-submit', (req, res) => {
                 <div class="card-body">
                   <h5 class="card-title">${filteredData[i].pName}</h5>
                   <p style="font-size: 18px;">${filteredData[i].pType}</p>
+                  <p style="font-size: 18px;">${filteredData[i].topping}</p>
                   <p style="font-size: 18px;">Rating: ${filteredData[i].rating}/5</p>
                   <a href="/detail/${filteredData[i].pID}" class="btn btn-secondary">More Detail</a>
                 </div>
