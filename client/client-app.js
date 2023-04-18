@@ -1,84 +1,98 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 const port = 3030;
 const app = express();
-const axios = require("axios").default; // used for Web Service (get data from server.js)
-const { JSDOM } = require("jsdom");
-const fs = require("fs");
+const axios = require('axios').default;     // used for Web Service (get data from server.js)
+const { JSDOM } = require('jsdom');
+const fs = require('fs');
+
 
 const router = express.Router();
 app.use(router);
 
 // set the static file directory
-app.use("/", express.static(path.join(__dirname, "/static")));
-app.use("/detail", express.static(path.join(__dirname, "/static")));
-app.use("/pManage", express.static(path.join(__dirname, "/static")));
+app.use('/', express.static(path.join(__dirname,'/static')));
+app.use('/detail', express.static(path.join(__dirname,'/static')));
+app.use('/pManage', express.static(path.join(__dirname,'/static')));
 
 // This is needed for POST method
 router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+router.use(express.urlencoded({extended: true}));
 
-// router.get(["/","/hom"], (req, res) => {
-//   console.log("Request at /");
-//   res.status(200).send("Hello World! in plain text");
-// });
+router.get('/', (req, res) => {
+    console.log("Request at /");
+    res.status(200).send("Hello World! in plain text");
+})
 
-router.get("/login", (req, res) => {
-  console.log("Request at /login");
-  res.status(200).sendFile(path.join(__dirname, "/html/login.html"));
-});
+router.get('/login', (req, res) => {
+    console.log("Request at /login");   
+    res.status(200).sendFile(path.join(__dirname,"/html/login.html"))
+})
 
-router.get("/login-submit", (req, res) => {
-  console.log("Request at /login-submit");
-  // res.status(200).sendFile(path.join(__dirname, "/html/login.html"));
-});
 
-router.get("/aboutus", (req, res) => {
-  console.log("Request at /aboutus");
-  res.status(200).sendFile(path.join(__dirname, "/html/aboutus.html"));
-});
+router.get('/login-submit', (req, res) => {
+  console.log("Request at /login_submit");
+  console.log(req.query); // Log the entire request object
+  const username = req.query.username;
+  const password = req.query.password;
 
-router.get("/uManage", (req, res) => {
-  console.log("Request at /uManage");
-  res.status(200).sendFile(path.join(__dirname, "/html/uManage.html"));
-});
-
-router.get(["/", "/home"], (req, res) => {
-  console.log("Request at /home");
-  axios
-    .get(`http://localhost:3000/selectchanom`, { responseType: "json" })
+  axios.get(`http://localhost:3000/selectlogin`, {responseType: 'json'})
     .then((response) => {
       const data = response.data;
-      //console.log(data);
+      //console.log(data[4].username);
+      for(let i=0 ; i<data.length; i++) {
+        if(data[i].username === username && data[i].pass_word === password) {
+          console.log("Login successful!");
+          return res.redirect("/pManage")
+        }
+      }
+      console.log("Wrong username or password.");
+      return res.redirect("/")
+    })
+
+  // res.status(200).sendFile(path.join(__dirname,"/html/login.html"))
+})
+
+router.get('/aboutus', (req, res) => {
+    console.log("Request at /aboutus");
+    res.status(200).sendFile(path.join(__dirname,"/html/aboutus.html"))
+})
+
+router.get('/uManage', (req, res) => {
+    console.log("Request at /uManage");
+    res.status(200).sendFile(path.join(__dirname,"/html/uManage.html"))
+})
+
+router.get(['/home', '/', '/index'], (req, res) => {
+  console.log('Request at /home');
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+      
+      const data = response.data;
+      //console.log(response.data);
 
       // load the html file then add 5 recommended products from the database
-      fs.readFile(
-        path.join(__dirname, "/html/home.html"),
-        "utf8",
-        (err, html) => {
+      fs.readFile(path.join(__dirname, "/html/home.html"), 'utf8', (err, html) => {
           if (err) {
             throw err;
           }
           const dom = new JSDOM(html);
-          const output = dom.window.document.getElementById("recommend");
+          const output = dom.window.document.getElementById('recommend');
 
           output.innerHTML = ``;
-
+          
           var child = `<div class="container-fluid"><div class="row" style="padding: 50px;">`;
-          for (var i = 0; i < 5; i++) {
-            if (data[i] === undefined) {
-              continue;
-            }
+          for(var i = 0; i < 5; i++) {
             child += `<div class="col">
             <!-- Use card to display each drink items -->
             <div class="card">  
-              <img src="${data[i]?.pic1}" class="card-img-top"/>
+              <img src="${data[i].pic1}" class="card-img-top"/>
               <div class="card-body">
-                <h5 class="card-title">${data[i]?.pName}</h5>
+                <h5 class="card-title">${data[i].pName}</h5>
                 <p class="card-text">
-                  Our original classic ${data[i]?.pName}
+                  Our original classic ${data[i].pName}
                 </p>
-                <a href="/detail/${data[i]?.pID}" class="btn btn-secondary">More Detail</a>
+                <a href="/detail/${data[i].pID}" class="btn btn-secondary">More Detail</a>
                 <!-- .btn adds button style to the <a> tag -->
                 <!-- .btn-secondary is the secondary color from Bootstrap making our button grey -->
               </div>
@@ -88,33 +102,28 @@ router.get(["/", "/home"], (req, res) => {
 
           // add page content with the retrieved data
           output.innerHTML += child + "</div>";
-          res.send(dom.serialize()); // sending the modified html file
-        }
-      );
-    });
-});
+          res.send(dom.serialize());  // sending the modified html file
+      });
+  })
+})
 
 // get detail page for each product ID
-router.get("/detail/:id", (req, res) => {
-  const id = req.params.id;
-  axios
-    .get(`http://localhost:3000/selectchanom/${id}`, { responseType: "json" })
-    .then((response) => {
-      console.log(response.data);
-      const data = response.data;
-      fs.readFile(
-        path.join(__dirname, "/html/detail.html"),
-        "utf8",
-        (err, html) => {
-          if (err) {
-            throw err;
-          }
-          const dom = new JSDOM(html);
-          const output = dom.window.document.getElementById("output");
-
-          output.innerHTML = "";
-          // add page content with the retrieved data
-          output.innerHTML += `
+router.get('/detail/:id', (req, res) => {
+    const id = req.params.id;
+    axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
+        .then((response) => {
+            console.log(response.data);
+            const data = response.data;
+            fs.readFile(path.join(__dirname, "/html/detail.html"), 'utf8', (err, html) => {
+                if (err) {
+                  throw err;
+                }
+                const dom = new JSDOM(html);
+                const output = dom.window.document.getElementById('output');
+                
+                output.innerHTML = "";
+                // add page content with the retrieved data
+                output.innerHTML += `
                 <div class="row">
                   <!-- Use Carousel to create preview images -->
                   <div class="col-5">
@@ -219,35 +228,29 @@ router.get("/detail/:id", (req, res) => {
                 </div>
               </div>
             </div>`;
-          res.send(dom.serialize()); // sending the modified html file
-        }
-      );
-    });
-});
+                res.send(dom.serialize());  // sending the modified html file
+            });
+        })
+})
 
 // get search page
-router.get("/search", (req, res) => {
+router.get('/search', (req, res) => {
   console.log("Request at /search");
-  axios
-    .get(`http://localhost:3000/selectchanom`, { responseType: "json" })
-    .then((response) => {
-      const data = response.data;
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+    const data = response.data;
 
-      // console.log(data);
-      fs.readFile(
-        path.join(__dirname, "/html/search.html"),
-        "utf8",
-        (err, html) => {
-          if (err) {
-            throw err;
-          }
-          const dom = new JSDOM(html);
-          const output = dom.window.document.getElementById("searchResult");
-
-          output.innerHTML = "";
-          var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
-          for (var i = 0; i < data.length; i++) {
-            child += `
+    fs.readFile(path.join(__dirname, "/html/search.html"), 'utf8', (err, html) => {
+      if (err) {
+        throw err;
+      }
+      const dom = new JSDOM(html);
+      const output = dom.window.document.getElementById('searchResult');
+      
+      output.innerHTML = "";
+      var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
+      for(var i=0; i<5; i++) {
+        child += `
           <!-- Use card to display search results -->
           <div class="card" style="width: 15rem; margin: 10px">
             <img
@@ -262,56 +265,49 @@ router.get("/search", (req, res) => {
             </div>
           </div>
       `;
-          }
-          // add page content with the retrieved data
-          output.innerHTML += child;
-          res.send(dom.serialize()); // sending the modified html file
-        }
-      );
-    });
-});
+      }
+      // add page content with the retrieved data
+      output.innerHTML += child;
+      res.send(dom.serialize());  // sending the modified html file
+  });
+  })
+})
 
 // search function
-router.get("/search-submit", (req, res) => {
+router.get('/search-submit', (req, res) => {
   console.log(req.query);
   const pName = req.query.pName;
   const pType = req.query.pType;
   const topping = req.query.topping;
   const rating = req.query.rating;
 
-  axios
-    .get(`http://localhost:3000/selectchanom`, { responseType: "json" })
-    .then((response) => {
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+      
       const data = response.data;
 
       // filter the search result based on the provided query parameters
-      const filteredData = data.filter((item) => {
-        return (
-          (!pName || item.pName.toLowerCase().includes(pName.toLowerCase())) &&
-          (!pType || item.pType == pType) &&
-          (!topping || item.topping == topping) &&
-          (!rating || item.rating === parseInt(rating))
-        );
+      const filteredData = data.filter(item => {
+          return (!pName || item.pName.toLowerCase().includes(pName.toLowerCase())) &&
+              (!pType || item.pType == pType) &&
+              (!topping || item.topping == topping) &&
+              (!rating || item.rating === parseInt(rating));
       });
       console.log(filteredData);
 
-      fs.readFile(
-        path.join(__dirname, "/html/search.html"),
-        "utf8",
-        (err, html) => {
+      fs.readFile(path.join(__dirname, "/html/search.html"), 'utf8', (err, html) => {
           if (err) {
             throw err;
           }
           const dom = new JSDOM(html);
-          const output = dom.window.document.getElementById("searchResult");
-
+          const output = dom.window.document.getElementById('searchResult');
+          
           output.innerHTML = "";
           var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
-          if (filteredData == "") {
-            // in case search not found
+          if(filteredData == "") {  // in case search not found
             child = `<h1 style="text-align: center; padding: 50px;">No results found</h1>`;
           }
-          for (var i in filteredData) {
+          for(var i in filteredData) {
             child += `
               <!-- Use card to display search results -->
               <div class="card" style="width: 15rem; margin: 10px">
@@ -330,30 +326,26 @@ router.get("/search-submit", (req, res) => {
           }
           // add page content with the retrieved data
           output.innerHTML += child;
-          res.send(dom.serialize()); // sending the modified html file
-        }
-      );
-    });
-});
+          res.send(dom.serialize());  // sending the modified html file
+      });
+  })
+})
 
 // product management page
-router.get("/pManage", (req, res) => {
-  console.log("Request at /pManage");
-  axios
-    .get(`http://localhost:3000/selectchanom`, { responseType: "json" })
-    .then((response) => {
+router.get('/pManage', (req, res) => {
+  console.log('Request at /pManage');
+  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  .then((response) => {
+      
       const data = response.data;
       //console.log(data);
 
-      fs.readFile(
-        path.join(__dirname, "/html/pManage.html"),
-        "utf8",
-        (err, html) => {
+      fs.readFile(path.join(__dirname, "/html/pManage.html"), 'utf8', (err, html) => {
           if (err) {
             throw err;
           }
           const dom = new JSDOM(html);
-          const output = dom.window.document.getElementById("pTable");
+          const output = dom.window.document.getElementById('pTable');
 
           output.innerHTML = "";
           var child = `<table class="table table-striped table-borderless "> 
@@ -371,7 +363,7 @@ router.get("/pManage", (req, res) => {
           </thead>
           <tbody>`;
 
-          for (var i in data) {
+          for(var i in data) {
             child += `<tr>
             <th scope="row">${data[i].pID}</th>
             <td><a href="/detail/${data[i].pID}" style="">${data[i].pName}</a></td>
@@ -384,55 +376,52 @@ router.get("/pManage", (req, res) => {
             <td><a href="/product-delete/${data[i].pID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
           </tr>`;
           }
-
+          
           // add page content with the retrieved data
           output.innerHTML += child;
-          res.send(dom.serialize()); // sending the modified html file
-        }
-      );
-    });
-});
+          res.send(dom.serialize());  // sending the modified html file
+      });
+  })
+})
 
 // insert product into the database
-router.post("/product-insert", (req, res) => {
+router.post('/product-insert', (req, res) => {
   var data = req.body;
   console.log(data);
-
-  axios.post("http://localhost:3000/insertchanom", data).then((response) => {
+  
+  axios.post("http://localhost:3000/insertchanom", data)
+  .then((response) => {
     //console.log(response);
     res.redirect("/pManage");
-  });
-});
+  })
+})
 
 // delete a product based on product ID
-router.get("/product-delete/:id", (req, res) => {
+router.get('/product-delete/:id', (req, res) => {
   const id = req.params.id;
-  axios.delete(`http://localhost:3000/deletechanom/${id}`).then((response) => {
+  axios.delete(`http://localhost:3000/deletechanom/${id}`)
+  .then((response) => {
     res.redirect("/pManage");
-  });
-});
+  })
+})
 
 // get an edit page for each product
-router.get("/pManage/edit/:id", (req, res) => {
+router.get('/pManage/edit/:id', (req, res) => {
   const id = req.params.id;
-  axios
-    .get(`http://localhost:3000/selectchanom/${id}`, { responseType: "json" })
-    .then((response) => {
-      console.log(response.data);
-      const data = response.data;
+  axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
+  .then((response) => {
+    console.log(response.data);
+    const data = response.data;
+    
+    fs.readFile(path.join(__dirname, "/html/pEdit.html"), 'utf8', (err, html) => {
+      if (err) {
+        throw err;
+      }
+      const dom = new JSDOM(html);
+      const output = dom.window.document.getElementById('output');
+      const form = dom.window.document.getElementById('inputForm');
 
-      fs.readFile(
-        path.join(__dirname, "/html/pEdit.html"),
-        "utf8",
-        (err, html) => {
-          if (err) {
-            throw err;
-          }
-          const dom = new JSDOM(html);
-          const output = dom.window.document.getElementById("output");
-          const form = dom.window.document.getElementById("inputForm");
-
-          form.innerHTML += `<form action="/product-update/${data.pID}" method="POST">  <!-- A form for administrators to edit a product -->
+      form.innerHTML += `<form action="/product-update/${data.pID}" method="POST">  <!-- A form for administrators to edit a product -->
       <h1>Editing a product</h1>
       <label for="product-input">Drink Name:</label>
       <input type="text" placeholder="Name" value="${data.pName}" id="drinkName" name="pName" required> <br>
@@ -456,10 +445,10 @@ router.get("/pManage/edit/:id", (req, res) => {
       <input type="number" placeholder="Price" name="price" id="drinkPrice" required value="${data.price}"> Baht <br>
       <button type="submit">Confirm</button>
       <button type="reset" id="clear-product">Clear</button>
-  </form>`;
+  </form>`
 
-          output.innerHTML = "";
-          var child = `<div class="col" style="padding: 30px;">
+      output.innerHTML = "";
+      var child = `<div class="col" style="padding: 30px;">
       <h1 style="font-size: 30px; text-align: left;">${data.pName}</h1>
       <p style="font-size: 22px;">Rating: ${data.rating} / 5</p>
       <p style="font-size: 22px;">${data.pType}</p>
@@ -474,34 +463,33 @@ router.get("/pManage/edit/:id", (req, res) => {
       <p style="font-size: 18px;">Image 3: ${data.pic3}</p>
     </div>
   </div>`;
-
-          // add page content with the retrieved data
-          output.innerHTML += child;
-          res.send(dom.serialize()); // sending the modified html file
-        }
-      );
-    });
-});
+      
+      // add page content with the retrieved data
+      output.innerHTML += child;
+      res.send(dom.serialize());  // sending the modified html file
+  });
+  })
+})
 
 // update a product based on product ID
-router.post("/product-update/:id", (req, res) => {
+router.post('/product-update/:id', (req, res) => {
   var pID = req.params.id;
   var data = req.body;
   console.log(data);
+  
+  axios.put(`http://localhost:3000/updatechanom/${pID}`, data)
+  .then((response) => {
+    //console.log(response);
+    res.redirect("/pManage");
+  })
+})
 
-  axios
-    .put(`http://localhost:3000/updatechanom/${pID}`, data)
-    .then((response) => {
-      //console.log(response);
-      res.redirect("/pManage");
-    });
-});
 
 // unspecified path
-app.get("*", function (req, res) {
-  res.status(404).send("404 - Page not found");
+app.get('*', function(req, res){
+  res.status(404).send('404 - Page not found');
 });
 
 app.listen(port, () => {
-  console.log("Server listening on port: " + port);
-});
+    console.log('Server listening on port: ' + port);
+})

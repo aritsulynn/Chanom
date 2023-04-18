@@ -1,7 +1,7 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 const app = express();
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 
 /* Config dotenv and router */
 const router = express.Router();
@@ -10,127 +10,108 @@ dotenv.config();
 
 // This is needed for POST method
 router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+router.use(express.urlencoded({extended: true}));
 
 /* Connection to MySQL */
-const mysql = require("mysql2");
-const { log } = require("console");
+const mysql = require('mysql2');
+const { log } = require('console');
 var connection = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USERNAME,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
 });
 
-connection.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected DB: " + process.env.MYSQL_DATABASE);
-});
+connection.connect(function(err) {
+    if(err) throw err;
+    console.log("Connected DB: " + process.env.MYSQL_DATABASE);
+}); 
 
-router.get("/", (req, res) => {
-  res.send("Hello world");
-});
+router.get('/', (req, res) => {
+    res.send("Hello world");
+})
 
 // select
-router.get("/selectchanom/:id", (req, res) => {
-  let pID = req.params.id;
+router.get('/selectchanom/:id', (req, res) => {
+    let pID = req.params.id;
 
-  if (!pID) {
-    return res
-      .status(400)
-      .send({ error: true, message: "Please provide product information" });
-  }
-  connection.query(
-    "SELECT * FROM product WHERE pID = ?",
-    [pID],
-    (error, results) => {
-      if (error) throw error;
-      res.json(results[0]);
-      console.log("Sending product result");
+    if(!pID) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
     }
-  );
-});
+    connection.query("SELECT * FROM product WHERE pID = ?", [pID], (error, results) => {
+        if(error) throw error;
+        res.json(results[0]);
+        console.log("Sending product result");
+    })
+})
 
 // select all
-router.get("/selectchanom", (req, res) => {
-  connection.query("SELECT * FROM product", (error, results) => {
-    if (error) throw error;
-    res.json(results);
-    console.log("Sending product result");
-  });
-});
+router.get('/selectchanom', (req, res) => {
 
-router.post("/insertchanom", (req, res) => {
-  let data = req.body;
+    connection.query("SELECT * FROM product", (error, results) => {
+        if(error) throw error;
+        res.json(results);
+        console.log("Sending product result");
+    })
 
-  if (!data) {
-    return res
-      .status(400)
-      .send({ error: true, message: "Please provide product information" });
-  }
+})
 
-  connection.query(`INSERT INTO product SET ? `, data, (error, results) => {
-    if (error) throw error;
-    return res.send({
-      error: false,
-      data: results.affectedRows,
-      message: "New product has been added successfully",
-    });
-  });
-});
+router.post('/insertchanom', (req, res) => {
+    let data = req.body;
 
-router.delete("/deletechanom/:id", (req, res) => {
-  let pID = req.params.id;
-  if (!pID) {
-    return res
-      .status(400)
-      .send({ error: true, message: "Please provide product information" });
-  }
-  connection.query(
-    "DELETE FROM product WHERE pID = ?",
-    [pID],
-    (error, results) => {
-      if (error) throw error;
-      return res.send({
-        error: false,
-        data: results.affectedRows,
-        message: "Product has been deleted successfully",
-      });
+    if(!data) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
     }
-  );
-});
 
-router.put("/updatechanom/:id", (req, res) => {
-  let pID = req.params.id;
-  let product = req.body;
+    connection.query(`INSERT INTO product SET ? `, data, (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'New product has been added successfully'})
+    })
 
-  if (!pID || !product) {
-    return res
-      .status(400)
-      .send({ error: true, message: "Please provide product information" });
-  }
-  connection.query(
-    "UPDATE product SET ? WHERE pID = ?",
-    [product, pID],
-    (error, results) => {
-      if (error) throw error;
-      return res.send({
-        error: false,
-        data: results.affectedRows,
-        message: "Product has been updated successfully",
-      });
+})
+
+router.delete('/deletechanom/:id', (req, res) => {
+    let pID = req.params.id;
+    if(!pID) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
     }
-  );
-});
+    connection.query("DELETE FROM product WHERE pID = ?", [pID], (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'Product has been deleted successfully'})
+    })
+})
 
-router.get("/selectadmin", (req, res) => {
-  connection.query("SELECT * FROM administrator", (error, results) => {
-    if (error) throw error;
-    res.send(results);
-    console.log("Sending admin result");
-  });
-});
+router.put('/updatechanom/:id', (req, res) => {
+    let pID = req.params.id;
+    let product = req.body;
 
-app.listen(process.env.PORT, function () {
-  console.log("Server listening on port: " + process.env.PORT);
+    if(!pID || !product) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
+    }
+    connection.query("UPDATE product SET ? WHERE pID = ?", [product, pID], (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'Product has been updated successfully'})
+    })
+})
+
+router.get('/selectadmin', (req, res) => {
+
+    connection.query("SELECT * FROM administrator", (error, results) => {
+        if(error) throw error;
+        res.send(results)
+        console.log("Sending admin result");
+    })
+})
+
+router.get('/selectlogin', (req, res) => {
+
+    connection.query("SELECT * FROM logininfo", (error, results) => {
+        if(error) throw error;
+        res.send(results)
+        console.log("Sending login result");
+    })
+})
+
+app.listen(process.env.PORT, function() {
+    console.log("Server listening on port: " + process.env.PORT);
 });
