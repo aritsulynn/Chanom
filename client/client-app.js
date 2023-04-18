@@ -43,12 +43,21 @@ router.get('/login-submit', (req, res) => {
       for(let i=0 ; i<data.length; i++) {
         if(data[i].username === username && data[i].pass_word === password) {
           console.log("Login successful!");
-          return res.redirect("/pManage")
+          return res.redirect("/home")
         }
       }
+
       console.log("Wrong username or password.");
-      return res.redirect("/login")
-      
+      fs.readFile(path.join(__dirname, "/html/login.html"), 'utf8', (err, html) => {
+        if (err) {
+          throw err;
+        }
+        const dom = new JSDOM(html);
+        const warning = dom.window.document.getElementById('incorrect-warning');
+        
+        warning.innerHTML = "Incorrect username or password";
+        res.send(dom.serialize());  // sending the modified html file
+      }); 
     })
 
   // res.status(200).sendFile(path.join(__dirname,"/html/login.html"))
