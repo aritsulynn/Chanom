@@ -31,7 +31,7 @@ router.get('/login', (req, res) => {
 
 
 router.get('/login-submit', (req, res) => {
-  console.log("Request at /login_submit");
+  console.log("Request at /login-submit");
   console.log(req.query); // Log the entire request object
   const username = req.query.username;
   const password = req.query.password;
@@ -47,7 +47,8 @@ router.get('/login-submit', (req, res) => {
         }
       }
       console.log("Wrong username or password.");
-      return res.redirect("/")
+      return res.redirect("/login")
+      
     })
 
   // res.status(200).sendFile(path.join(__dirname,"/html/login.html"))

@@ -83,7 +83,7 @@ footer {
   margin-top: 70px;
 }
 .login-form-footer a {
-  flex: 6;
+  
   border-radius: 100px;
   padding: 0.6rem;
   justify-content: center;
@@ -115,6 +115,7 @@ button.login-button {
   text-transform: uppercase;  /* change text to uppercase */
   font-size: 18px;
   height: 55px;
+  width: 75%;
   margin-top: 30px;
 }
 .login-header {
@@ -143,7 +144,7 @@ input[type="password"] {
   border: 1px solid black;
   height: 55px;
   padding: 0 2rem;
-  width: 100%;
+  width: 75%;
   font-size: 18px;
   border-radius: 100px;
 }
