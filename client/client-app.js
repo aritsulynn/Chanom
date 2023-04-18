@@ -18,14 +18,19 @@ app.use("/pManage", express.static(path.join(__dirname, "/static")));
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-router.get("/", (req, res) => {
-  console.log("Request at /");
-  res.status(200).send("Hello World! in plain text");
-});
+// router.get(["/","/hom"], (req, res) => {
+//   console.log("Request at /");
+//   res.status(200).send("Hello World! in plain text");
+// });
 
 router.get("/login", (req, res) => {
   console.log("Request at /login");
   res.status(200).sendFile(path.join(__dirname, "/html/login.html"));
+});
+
+router.get("/login-submit", (req, res) => {
+  console.log("Request at /login-submit");
+  // res.status(200).sendFile(path.join(__dirname, "/html/login.html"));
 });
 
 router.get("/aboutus", (req, res) => {
@@ -38,7 +43,7 @@ router.get("/uManage", (req, res) => {
   res.status(200).sendFile(path.join(__dirname, "/html/uManage.html"));
 });
 
-router.get("/home", (req, res) => {
+router.get(["/", "/home"], (req, res) => {
   console.log("Request at /home");
   axios
     .get(`http://localhost:3000/selectchanom`, { responseType: "json" })
@@ -61,16 +66,19 @@ router.get("/home", (req, res) => {
 
           var child = `<div class="container-fluid"><div class="row" style="padding: 50px;">`;
           for (var i = 0; i < 5; i++) {
+            if (data[i] === undefined) {
+              continue;
+            }
             child += `<div class="col">
             <!-- Use card to display each drink items -->
             <div class="card">  
-              <img src="${data[i].pic1}" class="card-img-top"/>
+              <img src="${data[i]?.pic1}" class="card-img-top"/>
               <div class="card-body">
-                <h5 class="card-title">${data[i].pName}</h5>
+                <h5 class="card-title">${data[i]?.pName}</h5>
                 <p class="card-text">
-                  Our original classic ${data[i].pName}
+                  Our original classic ${data[i]?.pName}
                 </p>
-                <a href="/detail/${data[i].pID}" class="btn btn-secondary">More Detail</a>
+                <a href="/detail/${data[i]?.pID}" class="btn btn-secondary">More Detail</a>
                 <!-- .btn adds button style to the <a> tag -->
                 <!-- .btn-secondary is the secondary color from Bootstrap making our button grey -->
               </div>
