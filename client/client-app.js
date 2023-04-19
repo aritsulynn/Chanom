@@ -503,7 +503,7 @@ router.post('/product-update/:id', (req, res) => {
 
 // unspecified path
 app.get('*', function(req, res){
-  res.status(404).send('404 - Page not found');
+  res.status(404).sendFile(path.join(__dirname,"/html/error.html"));
 });
 
 app.listen(port, () => {
