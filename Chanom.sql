@@ -3,18 +3,14 @@ CREATE DATABASE Chanom;
 
 USE Chanom;
 CREATE TABLE administrator (
-	username VARCHAR(50) PRIMARY KEY,
+	aID INT AUTO_INCREMENT,
+	username VARCHAR(50),
+    pass_word VARCHAR(50) NOT NULL,
     fname VARCHAR(50) NOT NULL,
     lname VARCHAR(50) NOT NULL,
     birthdate DATE NOT NULL,
-    email VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE logininfo (
-	username VARCHAR(50),
-    pass_word VARCHAR(50) NOT NULL,
-    PRIMARY KEY (username),
-    FOREIGN KEY (username) REFERENCES administrator(username)
+    email VARCHAR(50) NOT NULL,
+    PRIMARY KEY (aID,username)
 );
 
 CREATE TABLE product (
@@ -39,17 +35,9 @@ VALUES (1, "Classic Bubble Milk Tea", "Bubble Milk Tea", "Brown Sugar", 5, "Indu
 (5, "Strawberry Yoghurt Frappe", "Fruit Yoghurt Frappe", NULL, 3, "Indulge in the sweet and tangy taste of our Strawberry Yoghurt Frappe! Made with refreshing yoghurt and blended with fresh strawberries, this drink is the perfect balance of creamy and fruity flavors. Topped with whipped cream and strawberry sauce, every sip offers a delightful burst of flavor and a satisfying texture. Customize your drink with your choice of toppings, such as popping boba or strawberry jelly, and enjoy a unique and delightful drinking experience.", "https://drive.google.com/uc?export=view&id=1Od8G0gU9w9s1D9xkwakiVCp61ywR0Omk", "https://drive.google.com/uc?export=view&id=1IQ6VsDeRvWTgGUOZzU459twnEq2PRjAz", "https://drive.google.com/uc?export=view&id=1_O8LlpwzfiiNyEAR01Ww8ittt-pyt4nr", 55);
 
 INSERT INTO administrator
-VALUES ("Kritchanapat", "Kritchanapat", "Junju", "2003-05-26", "kritchanapat.jun@student.mahidol.edu"),
-("Thitiwut", "Thitiwut", "Harnphatcharapanukorn", "2003-04-08", "thitiwutharn@gmail.com"),
-("Sirasit", "Sirasit", "Puangpathanachai", "2003-01-18", "sirasit.pun@student.mahidol.edu"),
-("thanawat", "Thanawat", "Jarusuthirug", "2002-02-27", "sirasit.pun@student.mahidol.edu"),
-("bhubodin", "Bhubodin", "Somwhang", "2002-02-27", "bhubodin.som@student.mahidol.edu"),
-("ict", "ict", "user", "2009-05-20", "ict@mahidol.ac.th");
-
-INSERT INTO logininfo
-VALUES ("Thitiwut", "Bosszahahaha55566"),
-("Kritchanapat", "Earthza007"),
-("Sirasit", "himzaza"),
-("thanawat", "aritsulynn"),
-("bhubodin", "songzaba"),
-("ict", "ict555");
+VALUES (1, "Kritchanapat", "Earthza007", "Kritchanapat", "Junju", "2003-05-26", "kritchanapat.jun@student.mahidol.edu"),
+(2, "Thitiwut", "Bosszahahaha55566", "Thitiwut", "Harnphatcharapanukorn", "2003-04-08", "thitiwutharn@gmail.com"),
+(3, "Sirasit", "himzaza", "Sirasit", "Puangpathanachai", "2003-01-18", "sirasit.pun@student.mahidol.edu"),
+(4, "thanawat", "aritsulynn", "Thanawat", "Jarusuthirug", "2002-02-27", "sirasit.pun@student.mahidol.edu"),
+(5, "bhubodin", "songzaba", "Bhubodin", "Somwhang", "2002-02-27", "bhubodin.som@student.mahidol.edu"),
+(6, "ict", "ict555", "ict", "user", "2009-05-20", "ict@mahidol.ac.th");

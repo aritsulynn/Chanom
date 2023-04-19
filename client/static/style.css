@@ -245,7 +245,7 @@ div p {
   border-radius: 15px;
 }
 .product-input label {
-  display: block;
+  
   margin-bottom: 10px;
   font-size: 20px;
   color: #8c0724;
@@ -253,6 +253,7 @@ div p {
 }
 .product-input input[type="text"],
 .product-input input[type="number"],
+.product-input input[type="email"],
 .product-input input[type="file"], textarea {
   margin-bottom: 20px;
   padding: 10px;

@@ -103,12 +103,28 @@ router.get('/selectadmin', (req, res) => {
     })
 })
 
-router.get('/selectlogin', (req, res) => {
+router.post('/insertadmin', (req, res) => {
+    let data = req.body;
 
-    connection.query("SELECT * FROM logininfo", (error, results) => {
+    if(!data) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
+    }
+
+    connection.query(`INSERT INTO administrator SET ? `, data, (error, results) => {
         if(error) throw error;
-        res.send(results)
-        console.log("Sending login result");
+        return res.send({error: false, data: results.affectedRows, message: 'New admin has been added successfully'})
+    })
+
+})
+
+router.delete('/deleteadmin/:id', (req, res) => {
+    let aID = req.params.id;
+    if(!aID) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
+    }
+    connection.query("DELETE FROM administrator WHERE aID = ?", [aID], (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'Admin has been deleted successfully'})
     })
 })
 

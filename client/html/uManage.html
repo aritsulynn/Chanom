@@ -20,13 +20,41 @@
     <a href="/aboutus">About Us</a>
     <a href="/login">Log Out</a>
   </nav>
-    <main class="uManage">
-        <div id="output"></div>
+    <main class="pManage">
+      <!-- Use container from bootstrap to align the item -->
+        <div class="container-fluid" style="padding: 50px; background-color: #F8F4F1;">
+            <div class="row">
+                <div class="col product-input">   <!-- col-4, col-8 is used to specify the width -->
+                    <form action="/admin-insert" method="POST" style="padding-left: 10px;">  <!-- A form for administrators to add a product -->
+                        <h1>Add an administrator</h1>
+                        <label for="product-input">Username: </label>
+                        <input type="text" placeholder="Username" id="username" name="username" required> 
+                        <label for="product-input" style="padding-left: 100px;">Password: </label>
+                        <input type="text" placeholder="Password" id="password" name="pass_word" required> <br>
+                        <label for="product-input">Firstname: </label>
+                        <input type="text" placeholder="Firstname" id="firstname" name="fname" required> 
+                        <label for="product-input" style="padding-left: 100px;">Lastname: </label>
+                        <input type="text" placeholder="Lastname" id="lastname" name="lname" required> <br>
+                        <label for="product-input">Birthdate: </label>
+                        <input type="date" style="width: 250px" id="DOB" name="birthdate" required>
+                        <label for="product-input" style="padding-left: 300px;">Email: </label>
+                        <input type="email" placeholder="Email" id="email" name="email" required> <br>
+                        <button type="submit">Add</button>
+                        <button type="reset" id="clear-product">Clear</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 40px;">
+              <h1 style="text-align: center; color: #8c0724;">Existing Accounts</h1>
+              <!-- A table showing an existing product with option to delete and modify existing products -->
+              <div id="uTable"></div>
+
+          </div>
+        </div> 
     </main>
     <footer class="position-relative">
       © 2023 Copyright: CHANOM. All rights reserved.
     </footer>
-    <script src="client-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>

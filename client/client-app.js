@@ -36,7 +36,7 @@ router.get('/login-submit', (req, res) => {
   const username = req.query.username;
   const password = req.query.password;
 
-  axios.get(`http://localhost:3000/selectlogin`, {responseType: 'json'})
+  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
     .then((response) => {
       const data = response.data;
       //console.log(data[4].username);
@@ -66,11 +66,6 @@ router.get('/login-submit', (req, res) => {
 router.get('/aboutus', (req, res) => {
     console.log("Request at /aboutus");
     res.status(200).sendFile(path.join(__dirname,"/html/aboutus.html"))
-})
-
-router.get('/uManage', (req, res) => {
-    console.log("Request at /uManage");
-    res.status(200).sendFile(path.join(__dirname,"/html/uManage.html"))
 })
 
 router.get(['/home', '/', '/index'], (req, res) => {
@@ -367,7 +362,7 @@ router.get('/pManage', (req, res) => {
           var child = `<table class="table table-striped table-borderless "> 
           <thead class="thead-dark">
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">pID</th>
               <th scope="col">Drink Name</th>
               <th scope="col">Drink Type</th>
               <th scope="col">Topping</th>
@@ -500,6 +495,81 @@ router.post('/product-update/:id', (req, res) => {
   })
 })
 
+// product management page
+router.get('/uManage', (req, res) => {
+  console.log('Request at /uManage');
+  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
+  .then((response) => {
+      
+      const data = response.data;
+      //console.log(data);
+
+      fs.readFile(path.join(__dirname, "/html/uManage.html"), 'utf8', (err, html) => {
+          if (err) {
+            throw err;
+          }
+          const dom = new JSDOM(html);
+          const output = dom.window.document.getElementById('uTable');
+
+          output.innerHTML = "";
+          var child = `<table class="table table-striped table-borderless "> 
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Username</th>
+              <th scope="col">Password</th>
+              <th scope="col">Firstname</th>
+              <th scope="col">Lastname</th>
+              <th scope="col">Birthdate</th>
+              <th scope="col">email</th>
+              <th scope="col"></th>
+              <th scope="col"></th>   <!-- empty header column for edit/remove button -->
+            </tr>
+          </thead>
+          <tbody>`;
+
+          for(var i in data) {
+            child += `<tr>
+            <th scope="row">${data[i].aID}</th>
+            <th scope="row">${data[i].username}</th>
+            <td>${data[i].pass_word}</td>
+            <td>${data[i].fname}</td>
+            <td>${data[i].lname}</td>
+            <td>${data[i].birthdate.substring(0,10)}</td>
+            <td>${data[i].email}</td>
+            <!-- The last two column of each row will be used to modify and delete a product -->
+            <td><a href=/pManage/edit/${data[i].pID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
+            <td><a href="/admin-delete/${data[i].aID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
+          </tr>`;
+          }
+          
+          // add page content with the retrieved data
+          output.innerHTML += child;
+          res.send(dom.serialize());  // sending the modified html file
+      });
+  })
+})
+
+// insert product into the database
+router.post('/admin-insert', (req, res) => {
+  var data = req.body;
+  console.log(data);
+  
+  axios.post("http://localhost:3000/insertadmin", data)
+  .then((response) => {
+    //console.log(response);
+    res.redirect("/uManage");
+  })
+})
+
+// delete a product based on product ID
+router.get('/admin-delete/:id', (req, res) => {
+  const id = req.params.id;
+  axios.delete(`http://localhost:3000/deleteadmin/${id}`)
+  .then((response) => {
+    res.redirect("/uManage");
+  })
+})
 
 // unspecified path
 app.get('*', function(req, res){
