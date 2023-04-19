@@ -243,14 +243,14 @@ router.get('/detail/:id', (req, res) => {
         })
 })
 
-// get search page
-router.get('/search', (req, res) => {
+// get search page for product
+router.get('/pSearch', (req, res) => {
   console.log("Request at /search");
   axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
   .then((response) => {
     const data = response.data;
 
-    fs.readFile(path.join(__dirname, "/html/search.html"), 'utf8', (err, html) => {
+    fs.readFile(path.join(__dirname, "/html/pSearch.html"), 'utf8', (err, html) => {
       if (err) {
         throw err;
       }
@@ -285,8 +285,8 @@ router.get('/search', (req, res) => {
   })
 })
 
-// search function
-router.get('/search-submit', (req, res) => {
+// search function for product
+router.get('/pSearch-submit', (req, res) => {
   console.log(req.query);
   const pName = req.query.pName;
   const pType = req.query.pType;
@@ -307,7 +307,7 @@ router.get('/search-submit', (req, res) => {
       });
       console.log(filteredData);
 
-      fs.readFile(path.join(__dirname, "/html/search.html"), 'utf8', (err, html) => {
+      fs.readFile(path.join(__dirname, "/html/pSearch.html"), 'utf8', (err, html) => {
           if (err) {
             throw err;
           }
@@ -493,6 +493,128 @@ router.post('/product-update/:id', (req, res) => {
   .then((response) => {
     //console.log(response);
     res.redirect("/pManage");
+  })
+})
+
+// get search page for admin data
+router.get('/uSearch', (req, res) => {
+  console.log("Request at /search");
+  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
+  .then((response) => {
+    const data = response.data;
+
+    fs.readFile(path.join(__dirname, "/html/uSearch.html"), 'utf8', (err, html) => {
+      if (err) {
+        throw err;
+      }
+      const dom = new JSDOM(html);
+      const output = dom.window.document.getElementById('searchResult');
+      
+      output.innerHTML = "";
+      var child = `<table class="table table-striped table-borderless "> 
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Username</th>
+          <th scope="col">Password</th>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+          <th scope="col">Birthdate</th>
+          <th scope="col">email</th>
+          <th scope="col"></th>
+          <th scope="col"></th>   <!-- empty header column for edit/remove button -->
+        </tr>
+      </thead>
+      <tbody>`;
+      var toDisplay;  // the number of products to display on the page
+      if(data.length >= 5) {toDisplay = 5;} else {toDisplay = data.length;}   // if there are more than 5 products, display just 5
+      for(var i=0; i<toDisplay; i++) {
+        child += `
+        <tr>
+        <th scope="row">${data[i].aID}</th>
+        <th scope="row">${data[i].username}</th>
+        <td>${data[i].pass_word}</td>
+        <td>${data[i].fname}</td>
+        <td>${data[i].lname}</td>
+        <td>${data[i].birthdate}</td>
+        <td>${data[i].email}</td>
+        <td><a href=/uManage/edit/${data[i].aID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
+        <td><a href="/admin-delete/${data[i].aID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
+      </tr>
+      `;
+      }
+      // add page content with the retrieved data
+      output.innerHTML += child;
+      res.send(dom.serialize());  // sending the modified html file
+  });
+  })
+})
+
+// search function for admin data
+router.get('/uSearch-submit', (req, res) => {
+  console.log(req.query);
+  const username = req.query.username;
+  const fname = req.query.fname;
+  const lname = req.query.lname;
+
+  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
+  .then((response) => {
+      
+      const data = response.data;
+
+      // filter the search result based on the provided query parameters
+      const filteredData = data.filter(item => {
+          return (!username || item.username.toLowerCase().includes(username.toLowerCase())) &&
+          (!fname || item.fname.toLowerCase().includes(fname.toLowerCase())) &&
+          (!lname || item.lname.toLowerCase().includes(lname.toLowerCase()));
+      });
+      console.log(filteredData);
+
+      fs.readFile(path.join(__dirname, "/html/uSearch.html"), 'utf8', (err, html) => {
+          if (err) {
+            throw err;
+          }
+          const dom = new JSDOM(html);
+          const output = dom.window.document.getElementById('searchResult');
+          
+          output.innerHTML = "";
+          var child = `<table class="table table-striped table-borderless "> 
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Username</th>
+              <th scope="col">Password</th>
+              <th scope="col">Firstname</th>
+              <th scope="col">Lastname</th>
+              <th scope="col">Birthdate</th>
+              <th scope="col">email</th>
+              <th scope="col"></th>
+              <th scope="col"></th>   <!-- empty header column for edit/remove button -->
+            </tr>
+          </thead>
+          <tbody>`;
+          if(filteredData == "") {  // in case search not found
+            child = `<h1 style="text-align: center; padding: 50px;">No results found</h1>`;
+          }
+          for(var i in filteredData) {
+            child += `
+            <tr>
+            <th scope="row">${filteredData[i].aID}</th>
+            <th scope="row">${filteredData[i].username}</th>
+            <td>${filteredData[i].pass_word}</td>
+            <td>${filteredData[i].fname}</td>
+            <td>${filteredData[i].lname}</td>
+            <td>${filteredData[i].birthdate}</td>
+            <td>${filteredData[i].email}</td>
+            <td><a href=/uManage/edit/${filteredData[i].aID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
+            <td><a href="/admin-delete/${filteredData[i].aID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
+            </tr>
+          `;
+          }
+          // add page content with the retrieved data
+          output.innerHTML += child;
+          res.send(dom.serialize());  // sending the modified html file
+      });
   })
 })
 
