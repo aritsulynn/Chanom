@@ -103,6 +103,19 @@ router.get('/selectadmin', (req, res) => {
     })
 })
 
+router.get('/selectadmin/:id', (req, res) => {
+    let aID = req.params.id;
+
+    if(!aID) {
+        return res.status(400).send({error: true, message: 'Please provide product information'})
+    }
+    connection.query("SELECT * FROM administrator WHERE aID = ?", [aID], (error, results) => {
+        if(error) throw error;
+        res.json(results[0]);
+        console.log("Sending product result");
+    })
+})
+
 router.post('/insertadmin', (req, res) => {
     let data = req.body;
 
@@ -125,6 +138,19 @@ router.delete('/deleteadmin/:id', (req, res) => {
     connection.query("DELETE FROM administrator WHERE aID = ?", [aID], (error, results) => {
         if(error) throw error;
         return res.send({error: false, data: results.affectedRows, message: 'Admin has been deleted successfully'})
+    })
+})
+
+router.put('/updateadmin/:id', (req, res) => {
+    let aID = req.params.id;
+    let admin = req.body;
+
+    if(!aID || !admin) {
+        return res.status(400).send({error: true, message: 'Please provide admin information'})
+    }
+    connection.query("UPDATE administrator SET ? WHERE aID = ?", [admin, aID], (error, results) => {
+        if(error) throw error;
+        return res.send({error: false, data: results.affectedRows, message: 'Admin has been updated successfully'})
     })
 })
 

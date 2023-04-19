@@ -14,6 +14,7 @@ app.use(router);
 app.use('/', express.static(path.join(__dirname,'/static')));
 app.use('/detail', express.static(path.join(__dirname,'/static')));
 app.use('/pManage', express.static(path.join(__dirname,'/static')));
+app.use('/uManage', express.static(path.join(__dirname,'/static')));
 
 // This is needed for POST method
 router.use(express.json());
@@ -436,11 +437,11 @@ router.get('/pManage/edit/:id', (req, res) => {
       <h1>Editing a product</h1>
       <label for="product-input">Drink Name:</label>
       <input type="text" placeholder="Name" value="${data.pName}" id="drinkName" name="pName" required> <br>
-      <label for="product-input">Type:</label>
+      <label for="product-input">Type:</label> <br>
       <input type="radio" name="pType" value="Bubble Milk Tea" id="drinkType" required> Bubble Milk Tea<br>
       <input type="radio" name="pType" value="Bubble Milk" id="drinkType" required> Bubble Milk <br>
       <input type="radio" name="pType" value="Fruit Yoghurt Frappe" id="drinkType" required> Fruit Yoghurt Frappe <br> <br>
-      <label for="product-input">Topping:</label>
+      <label for="product-input">Topping:</label> <br>
       <input type="radio" name="topping" value="Black Pearl" id="drinkType"> Black Pearl<br>
       <input type="radio" name="topping" value="Grass Jelly" id="drinkType"> Grass Jelly <br>
       <input type="radio" name="topping" value="Brown Sugar" id="drinkType"> Brown Sugar <br> <br>
@@ -535,10 +536,10 @@ router.get('/uManage', (req, res) => {
             <td>${data[i].pass_word}</td>
             <td>${data[i].fname}</td>
             <td>${data[i].lname}</td>
-            <td>${data[i].birthdate.substring(0,10)}</td>
+            <td>${data[i].birthdate}</td>
             <td>${data[i].email}</td>
             <!-- The last two column of each row will be used to modify and delete a product -->
-            <td><a href=/pManage/edit/${data[i].pID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
+            <td><a href=/uManage/edit/${data[i].aID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
             <td><a href="/admin-delete/${data[i].aID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
           </tr>`;
           }
@@ -550,7 +551,7 @@ router.get('/uManage', (req, res) => {
   })
 })
 
-// insert product into the database
+// insert admin into the database
 router.post('/admin-insert', (req, res) => {
   var data = req.body;
   console.log(data);
@@ -562,11 +563,76 @@ router.post('/admin-insert', (req, res) => {
   })
 })
 
-// delete a product based on product ID
+// delete an admin based on aID
 router.get('/admin-delete/:id', (req, res) => {
   const id = req.params.id;
   axios.delete(`http://localhost:3000/deleteadmin/${id}`)
   .then((response) => {
+    res.redirect("/uManage");
+  })
+})
+
+// get an edit page for each admin account
+router.get('/uManage/edit/:id', (req, res) => {
+  const id = req.params.id;
+  axios.get(`http://localhost:3000/selectadmin/${id}`, {responseType: 'json'})
+  .then((response) => {
+    console.log(response.data);
+    const data = response.data;
+    
+    fs.readFile(path.join(__dirname, "/html/uEdit.html"), 'utf8', (err, html) => {
+      if (err) {
+        throw err;
+      }
+      const dom = new JSDOM(html);
+      const output = dom.window.document.getElementById('output');
+      const form = dom.window.document.getElementById('inputForm');
+
+      form.innerHTML += `<form action="/admin-update/${data.aID}" method="POST" style="padding-left: 10px;">  <!-- A form for administrators to add a product -->
+      <h1>Edit an administrator</h1>
+      <label for="product-input">Username: </label>
+      <input type="text" value="${data.username}" placeholder="Username" id="username" name="username" required> <br>
+      <label for="product-input">Password: </label>
+      <input type="text" value="${data.pass_word}" placeholder="Password" id="password" name="pass_word" required> <br>
+      <label for="product-input">First Name: </label>
+      <input type="text" value="${data.fname}" placeholder="First Name" id="firstname" name="fname" required> <br>
+      <label for="product-input" >Last Name: </label>
+      <input type="text" value="${data.lname}" placeholder="Last Name" id="lastname" name="lname" required> <br>
+      <label for="product-input">Birthdate: </label>
+      <input type="date" value="${data.birthdate.substring(0,10)}" style="width: 250px" id="DOB" name="birthdate" required> <br><br>
+      <label for="product-input">Email: </label> 
+      <input type="email" value="${data.email}" placeholder="Email" id="email" name="email" required> <br>
+      <button type="submit">Confirm</button>
+      <button type="reset" id="clear-product">Clear</button>
+  </form>`;
+
+  output.innerHTML = "";
+  var child = `<div class="col" style="padding: 30px;">
+  <h1 style="font-size: 30px; text-align: left;">Current Data</h1> <br>
+  <p style="font-size: 22px;">Username: ${data.username}</p>
+  <p style="font-size: 22px;">Password: ${data.pass_word}</p>
+  <p style="font-size: 22px;">First Name: ${data.fname}</p>
+  <p style="font-size: 22px;">Last Name: ${data.lname}</p>
+  <p style="font-size: 22px;">Birthdate: ${data.birthdate}</p>
+  <p style="font-size: 22px;">Email: ${data.email}</p>
+</div>
+</div>`;
+  
+      // add page content with the retrieved data
+      output.innerHTML += child;
+      res.send(dom.serialize());  // sending the modified html file
+  });
+  })
+})
+
+// update an admin based on aID
+router.post('/admin-update/:id', (req, res) => {
+  var aID = req.params.id;
+  var data = req.body;
+  console.log(data);
+  axios.put(`http://localhost:3000/updateadmin/${aID}`, data)
+  .then((response) => {
+    //console.log(response);
     res.redirect("/uManage");
   })
 })
