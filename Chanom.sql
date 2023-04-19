@@ -13,7 +13,6 @@ CREATE TABLE administrator (
 CREATE TABLE logininfo (
 	username VARCHAR(50),
     pass_word VARCHAR(50) NOT NULL,
-    loginLog DATETIME,
     PRIMARY KEY (username),
     FOREIGN KEY (username) REFERENCES administrator(username)
 );
@@ -44,11 +43,13 @@ VALUES ("Kritchanapat", "Kritchanapat", "Junju", "2003-05-26", "kritchanapat.jun
 ("Thitiwut", "Thitiwut", "Harnphatcharapanukorn", "2003-04-08", "thitiwutharn@gmail.com"),
 ("Sirasit", "Sirasit", "Puangpathanachai", "2003-01-18", "sirasit.pun@student.mahidol.edu"),
 ("thanawat", "Thanawat", "Jarusuthirug", "2002-02-27", "sirasit.pun@student.mahidol.edu"),
-("bhubodin", "Bhubodin", "Somwhang", "2002-02-27", "bhubodin.som@student.mahidol.edu");
+("bhubodin", "Bhubodin", "Somwhang", "2002-02-27", "bhubodin.som@student.mahidol.edu"),
+("ict", "ict", "user", "2009-05-20", "ict@mahidol.ac.th");
 
 INSERT INTO logininfo
-VALUES ("Thitiwut", "Bosszahahaha55566", NULL),
-("Kritchanapat", "Earthza007", NULL),
-("Sirasit", "himzaza", NULL),
-("thanawat", "aritsulynn", NULL),
-("bhubodin", "songzaba", NULL);
+VALUES ("Thitiwut", "Bosszahahaha55566"),
+("Kritchanapat", "Earthza007"),
+("Sirasit", "himzaza"),
+("thanawat", "aritsulynn"),
+("bhubodin", "songzaba"),
+("ict", "ict555");

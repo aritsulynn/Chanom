@@ -92,7 +92,11 @@ router.get(['/home', '/', '/index'], (req, res) => {
           output.innerHTML = ``;
           
           var child = `<div class="container-fluid"><div class="row" style="padding: 50px;">`;
-          for(var i = 0; i < 5; i++) {
+
+          var toDisplay;  // the number of products to display on the page
+          if(data.length >= 5) {toDisplay = 5;} else {toDisplay = data.length;}   // if there are more than 5 products, display just 5
+
+          for(var i = 0; i < toDisplay; i++) {
             child += `<div class="col">
             <!-- Use card to display each drink items -->
             <div class="card">  
@@ -259,7 +263,9 @@ router.get('/search', (req, res) => {
       
       output.innerHTML = "";
       var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
-      for(var i=0; i<5; i++) {
+      var toDisplay;  // the number of products to display on the page
+      if(data.length >= 5) {toDisplay = 5;} else {toDisplay = data.length;}   // if there are more than 5 products, display just 5
+      for(var i=0; i<toDisplay; i++) {
         child += `
           <!-- Use card to display search results -->
           <div class="card" style="width: 15rem; margin: 10px">
