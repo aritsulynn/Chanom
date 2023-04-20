@@ -7,6 +7,10 @@
 }
 body {
   background-color: #f8f4f1;
+  /* make the footer stay at the bottom */
+  min-height: 100vh;
+  display: flex;    
+  flex-direction: column;
 }
 header {
   padding: 40px;
@@ -44,7 +48,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 20px;
-
+  margin-top: auto;
   bottom: 0;
   width: 100%;
 }
