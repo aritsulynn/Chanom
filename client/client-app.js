@@ -69,7 +69,7 @@ router.get('/aboutus', (req, res) => {
     res.status(200).sendFile(path.join(__dirname,"/html/aboutus.html"))
 })
 
-router.get(['/home', '/', '/index'], (req, res) => {
+router.get('/home', (req, res) => {
   console.log('Request at /home');
   axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
   .then((response) => {
@@ -286,27 +286,13 @@ router.get('/pSearch', (req, res) => {
 })
 
 // search function for product
-router.get('/pSearch-submit', (req, res) => {
-  console.log(req.query);
-  const pName = req.query.pName;
-  const pType = req.query.pType;
-  const topping = req.query.topping;
-  const rating = req.query.rating;
-
-  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+router.post('/pSearch-submit', (req, res) => {
+  var query = req.body;
+  console.log(query);
+  axios.post(`http://localhost:3000/searchchanom`, query)   // We need to use post instead of get because axios seems to be unable to send data along with get
   .then((response) => {
-      
       const data = response.data;
-
-      // filter the search result based on the provided query parameters
-      const filteredData = data.filter(item => {
-          return (!pName || item.pName.toLowerCase().includes(pName.toLowerCase())) &&
-              (!pType || item.pType == pType) &&
-              (!topping || item.topping == topping) &&
-              (!rating || item.rating === parseInt(rating));
-      });
-      console.log(filteredData);
-
+      
       fs.readFile(path.join(__dirname, "/html/pSearch.html"), 'utf8', (err, html) => {
           if (err) {
             throw err;
@@ -316,22 +302,22 @@ router.get('/pSearch-submit', (req, res) => {
           
           output.innerHTML = "";
           var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
-          if(filteredData == "") {  // in case search not found
+          if(data == "") {  // in case search not found
             child = `<h1 style="text-align: center; padding: 50px;">No results found</h1>`;
           }
-          for(var i in filteredData) {
+          for(var i in data) {
             child += `
               <!-- Use card to display search results -->
               <div class="card" style="width: 15rem; margin: 10px">
                 <img
-                  src="${filteredData[i].pic1}"
+                  src="${data[i].pic1}"
                   class="card-img-top" />
                 <div class="card-body">
-                  <h5 class="card-title">${filteredData[i].pName}</h5>
-                  <p style="font-size: 18px;">${filteredData[i].pType}</p>
-                  <p style="font-size: 18px;">${filteredData[i].topping}</p>
-                  <p style="font-size: 18px;">Rating: ${filteredData[i].rating}/5</p>
-                  <a href="/detail/${filteredData[i].pID}" class="btn btn-secondary">More Detail</a>
+                  <h5 class="card-title">${data[i].pName}</h5>
+                  <p style="font-size: 18px;">${data[i].pType}</p>
+                  <p style="font-size: 18px;">${data[i].topping}</p>
+                  <p style="font-size: 18px;">Rating: ${data[i].rating}/5</p>
+                  <a href="/detail/${data[i].pID}" class="btn btn-secondary">More Detail</a>
                 </div>
               </div>
           `;
@@ -551,24 +537,14 @@ router.get('/uSearch', (req, res) => {
 })
 
 // search function for admin data
-router.get('/uSearch-submit', (req, res) => {
-  console.log(req.query);
-  const username = req.query.username;
-  const fname = req.query.fname;
-  const lname = req.query.lname;
+router.post('/uSearch-submit', (req, res) => {
+  var query = req.body;
+  console.log(query);
 
-  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchadmin`, query)
   .then((response) => {
       
       const data = response.data;
-
-      // filter the search result based on the provided query parameters
-      const filteredData = data.filter(item => {
-          return (!username || item.username.toLowerCase().includes(username.toLowerCase())) &&
-          (!fname || item.fname.toLowerCase().includes(fname.toLowerCase())) &&
-          (!lname || item.lname.toLowerCase().includes(lname.toLowerCase()));
-      });
-      console.log(filteredData);
 
       fs.readFile(path.join(__dirname, "/html/uSearch.html"), 'utf8', (err, html) => {
           if (err) {
@@ -593,21 +569,21 @@ router.get('/uSearch-submit', (req, res) => {
             </tr>
           </thead>
           <tbody>`;
-          if(filteredData == "") {  // in case search not found
+          if(data == "") {  // in case search not found
             child = `<h1 style="text-align: center; padding: 50px;">No results found</h1>`;
           }
-          for(var i in filteredData) {
+          for(var i in data) {
             child += `
             <tr>
-            <th scope="row">${filteredData[i].aID}</th>
-            <th scope="row">${filteredData[i].username}</th>
-            <td>${filteredData[i].pass_word}</td>
-            <td>${filteredData[i].fname}</td>
-            <td>${filteredData[i].lname}</td>
-            <td>${filteredData[i].birthdate}</td>
-            <td>${filteredData[i].email}</td>
-            <td><a href=/uManage/edit/${filteredData[i].aID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
-            <td><a href="/admin-delete/${filteredData[i].aID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
+            <th scope="row">${data[i].aID}</th>
+            <th scope="row">${data[i].username}</th>
+            <td>${data[i].pass_word}</td>
+            <td>${data[i].fname}</td>
+            <td>${data[i].lname}</td>
+            <td>${data[i].birthdate}</td>
+            <td>${data[i].email}</td>
+            <td><a href=/uManage/edit/${data[i].aID}><i class="bi bi-pencil-square" style="background-color: transparent;"></i></a></td>
+            <td><a href="/admin-delete/${data[i].aID}"><i class="bi bi-trash3-fill" style="background-color: transparent; color: red;"></i></a></td>
             </tr>
           `;
           }
@@ -721,7 +697,7 @@ router.get('/uManage/edit/:id', (req, res) => {
       <label for="product-input" >Last Name: </label>
       <input type="text" value="${data.lname}" placeholder="Last Name" id="lastname" name="lname" required> <br>
       <label for="product-input">Birthdate: </label>
-      <input type="date" value="${data.birthdate.substring(0,10)}" style="width: 250px" id="DOB" name="birthdate" required> <br><br>
+      <input type="date" value="" style="width: 250px" id="DOB" name="birthdate" required> <br><br>
       <label for="product-input">Email: </label> 
       <input type="email" value="${data.email}" placeholder="Email" id="email" name="email" required> <br>
       <button type="submit">Confirm</button>

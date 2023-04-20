@@ -94,6 +94,45 @@ router.put('/updatechanom/:id', (req, res) => {
     })
 })
 
+// search product (4 criterias)
+router.post('/searchchanom', (req, res) => {
+    console.log(req.body);
+    let pName = req.body.pName;
+    let pType = req.body.pType;
+    let topping = req.body.topping;
+    let rating = req.body.rating;
+    
+    let queryParams = [];
+    let queryString = 'SELECT * FROM product';
+
+    // check if each query attribute has a value or not
+    if (pName) {
+        queryParams.push(`pName LIKE '%${pName}%'`);
+    }
+
+    if (pType) {
+        queryParams.push(`pType = '${pType}'`);
+    }
+
+    if (topping) {
+        queryParams.push(`topping = '${topping}'`);
+    }
+
+    if (rating) {
+        queryParams.push(`rating = ${rating}`);
+    }
+
+    if (queryParams.length > 0) {
+        queryString += ` WHERE ${queryParams.join(' AND ')}`;
+    }
+
+    connection.query(queryString, (error, results) => {
+        if (error) throw error;
+        return res.json(results);
+    });
+});
+
+
 router.get('/selectadmin', (req, res) => {
 
     connection.query("SELECT * FROM administrator", (error, results) => {
@@ -153,6 +192,38 @@ router.put('/updateadmin/:id', (req, res) => {
         return res.send({error: false, data: results.affectedRows, message: 'Admin has been updated successfully'})
     })
 })
+
+router.post('/searchadmin', (req, res) => {
+    console.log(req.body);
+    let username = req.body.username;
+    let fname = req.body.fname;
+    let lname = req.body.lname;
+    
+    let queryParams = [];
+    let queryString = 'SELECT * FROM administrator';
+
+    // check if each query attribute has a value or not
+    if (username) {
+        queryParams.push(`username LIKE '%${username}%'`);      // add more to the query string if any
+    }
+
+    if (fname) {
+        queryParams.push(`fname LIKE '%${fname}%'`);
+    }
+
+    if (lname) {
+        queryParams.push(`lname LIKE '%${lname}%'`);
+    }
+
+    if (queryParams.length > 0) {
+        queryString += ` WHERE ${queryParams.join(' AND ')}`;
+    }
+
+    connection.query(queryString, (error, results) => {
+        if (error) throw error;
+        return res.json(results);
+    });
+});
 
 app.listen(process.env.PORT, function() {
     console.log("Server listening on port: " + process.env.PORT);
