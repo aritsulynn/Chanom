@@ -6,7 +6,6 @@ const axios = require('axios').default;     // used for Web Service (get data fr
 const { JSDOM } = require('jsdom');
 const fs = require('fs');
 
-
 const router = express.Router();
 app.use(router);
 
