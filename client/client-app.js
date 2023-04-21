@@ -32,20 +32,15 @@ router.get('/login', (req, res) => {
 
 router.get('/login-submit', (req, res) => {
   console.log("Request at /login-submit");
-  console.log(req.query); // Log the entire request object
-  const username = req.query.username;
-  const password = req.query.password;
+  console.log(`Log in with username: ${req.query.username} password: ${req.query.password}`); // Log the username and password
 
-  axios.post(`http://localhost:3000/searchadmin`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/authenticate`, req.query)
     .then((response) => {
-      const data = response.data;
-      for(let i=0 ; i<data.length; i++) {
-        if(data[i].username === username && data[i].pass_word === password) {
-          console.log("Login successful!");
-          return res.redirect("/home")
-        }
+      const code = response.data.code;
+      if(code === 1) {
+        console.log("Login successful!");
+        return res.redirect("/home")
       }
-
       console.log("Wrong username or password.");
       fs.readFile(path.join(__dirname, "/html/login.html"), 'utf8', (err, html) => {
         if (err) {
@@ -67,7 +62,7 @@ router.get('/aboutus', (req, res) => {
 
 router.get('/home', (req, res) => {
   console.log('Request at /home');
-  axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})    // search with no criteria (get all products)
   .then((response) => {
       
       const data = response.data;

@@ -247,6 +247,40 @@ router.delete('/deletechanom/:id', (req, res) => {
 
 /* ------------------ Administrator web services ----------------------- */
 
+// Authentication (for login)
+// method: post
+// URL: http://localhost:3000/authenticate
+// body: raw JSON
+// Test case #1 (correct username, password)
+// {
+//     "username": "ict",
+//     "password": "ict555"
+// }
+// Test case #2 (incorrect username, password)
+// {
+//     "username": "acb",
+//     "password": "superBoss555"
+// }
+router.post('/authenticate', (req, res) => {
+    const username = req.body.username;
+    const pass_word = req.body.password;
+
+    if(!username || !pass_word) {
+        return res.status(400).send({error: true, message: 'Please provide admin information'})
+    }
+    connection.query("SELECT username, pass_word FROM administrator", (error, results) => {
+        if(error) throw error;
+        for(var i = 0; i < results.length; i++) {
+            if(results[i].username === username && results[i].pass_word === pass_word) {
+                console.log("Authentication: match");
+                return res.json({"status": "match", "code": 1});    // send status pass(1) back if match
+            }
+        }
+        console.log("Authentication: no match");
+        return res.json({"status": "no match", "code": 0});    // send fail(0) if username and password does not match
+    })
+})
+
 // Select an admin based on aID
 // method: get
 // Test case #1
@@ -257,7 +291,7 @@ router.get('/selectadmin/:id', (req, res) => {
     let aID = req.params.id;
 
     if(!aID) {
-        return res.status(400).send({error: true, message: 'Please provide product information'})
+        return res.status(400).send({error: true, message: 'Please provide admin information'})
     }
     connection.query("SELECT * FROM administrator WHERE aID = ?", [aID], (error, results) => {
         if(error) throw error;
