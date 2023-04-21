@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 
 router.get('/login', (req, res) => {
     console.log("Request at /login");   
-    res.status(200).sendFile(path.join(__dirname,"/html/login.html"))
+    res.status(200).sendFile(path.join(__dirname,"/html/login.html"));
 })
 
 router.get('/login-submit', (req, res) => {
@@ -36,10 +36,9 @@ router.get('/login-submit', (req, res) => {
   const username = req.query.username;
   const password = req.query.password;
 
-  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchadmin`, {responseType: 'json'})
     .then((response) => {
       const data = response.data;
-      //console.log(data[4].username);
       for(let i=0 ; i<data.length; i++) {
         if(data[i].username === username && data[i].pass_word === password) {
           console.log("Login successful!");
@@ -59,8 +58,6 @@ router.get('/login-submit', (req, res) => {
         res.send(dom.serialize());  // sending the modified html file
       }); 
     })
-
-  // res.status(200).sendFile(path.join(__dirname,"/html/login.html"))
 })
 
 router.get('/aboutus', (req, res) => {
@@ -70,11 +67,10 @@ router.get('/aboutus', (req, res) => {
 
 router.get('/home', (req, res) => {
   console.log('Request at /home');
-  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})
   .then((response) => {
       
       const data = response.data;
-      //console.log(response.data);
 
       // load the html file then add 5 recommended products from the database
       fs.readFile(path.join(__dirname, "/html/home.html"), 'utf8', (err, html) => {
@@ -186,7 +182,7 @@ router.get('/detail/:id', (req, res) => {
 // get search page for product
 router.get('/pSearch', (req, res) => {
   console.log("Request at /search");
-  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})
   .then((response) => {
     const data = response.data;
 
@@ -272,7 +268,7 @@ router.post('/pSearch-submit', (req, res) => {
 // product management page
 router.get('/pManage', (req, res) => {
   console.log('Request at /pManage');
-  axios.get(`http://localhost:3000/selectchanom`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})  // get all product results
   .then((response) => {
       
       const data = response.data;
@@ -425,7 +421,7 @@ router.post('/product-update/:id', (req, res) => {
 // get search page for admin data
 router.get('/uSearch', (req, res) => {
   console.log("Request at /search");
-  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchadmin`, {responseType: 'json'})
   .then((response) => {
     const data = response.data;
 
@@ -537,7 +533,7 @@ router.post('/uSearch-submit', (req, res) => {
 // product management page
 router.get('/uManage', (req, res) => {
   console.log('Request at /uManage');
-  axios.get(`http://localhost:3000/selectadmin`, {responseType: 'json'})
+  axios.post(`http://localhost:3000/searchadmin`, {responseType: 'json'})
   .then((response) => {
       
       const data = response.data;
