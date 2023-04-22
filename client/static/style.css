@@ -261,7 +261,7 @@ label.weight {
 }
 
 /* input styles */
-input[type="text-search"].weight, select.weight {
+input[type="text-search"].weight, input[type="number"].weight, select.weight {
   padding: 10px;
   border: none;
   border-radius: 5px;
