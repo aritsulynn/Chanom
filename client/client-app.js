@@ -126,9 +126,9 @@ router.get('/home', (req, res) => {
       });
 });
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   delete req.session.user; // delete the session user
-  res.sendStatus(200); // send a success response to the client
+  res.redirect('/login'); // get the user back to login page
 });
 
 

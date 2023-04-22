@@ -31,20 +31,8 @@
     <a href="/pManage">Product Management</a>
     <a href="/uManage">User Account Management</a>
     <a href="/aboutus">About Us</a>
-    <a href="#" onclick="logout()">Log Out</a>
+    <a href="/logout">Log Out</a>
   </nav>
-
-  <script>
-    function logout() {
-      fetch('/logout', {method: 'POST'})
-        .then(() => {
-          window.location.href = '/login';
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  </script>
   
   <main>
     <!-- Use auto playing carousel from Bootstrap to create a moving banner -->
