@@ -59,22 +59,7 @@
                     experience in town.</p>
             </div>
         </div>
-        <div style="text-align: center; justify-content: center; display: inline-block; margin-bottom: 15px; width: 100%; font-size: 22px">
-            <form action="/getweight" method="POST">
-                <h1 style="text-align: center; padding-top: 30px; color: #8c0724;">Ideal Weight</h1>
-                <label for="height">Your gender</label>
-                <select id="gender" name="gender" required>
-                    <option value="">Not select</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-                <label for="height">Your height</label>
-                <input type="text-search" id="height" name="height" placeholder="" required> <br>
-                <button type="submit" id="search-btn" style="margin-top: 15px; margin-bottom: 15px;">Search</button> 
-              </form>
-              <div id="weight_text">
-              </div>
-        </div>
+        
         <!-- Row for displaying our branches -->
         <div class="row">
             <!-- Each column uses card to display the store image and its description -->
@@ -132,6 +117,25 @@
                     and we are thrilled to be a part of your journey in discovering this wonderful beverage."
                 </p>
             </div>
+        </div>
+        <div class="form-container">
+            <form action="/getweight" method="POST">
+                <h1 class="form-header">Ideal Weight</h1>
+                <div class="form-group">
+                    <label for="gender">Your gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Not select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="height">Your height</label>
+                    <input type="text-search" id="height" name="height" placeholder="" required>
+                </div>
+                <button type="submit" class="form-submit">Search</button>
+            </form>
+            <div id="weight_text"></div>
         </div>
     </div>
     
