@@ -67,10 +67,8 @@ router.post('/login-submit', (req, res) => {
     });
 });
 
-
-
-
 router.get('/aboutus', (req, res) => {
+    if (!req.session || !req.session.user) { return res.redirect('/login')};
     console.log("Request at /aboutus");
     res.status(200).sendFile(path.join(__dirname,"/html/aboutus.html"))
 })
@@ -134,7 +132,7 @@ router.get('/logout', (req, res) => {
 
 // get detail page for each product ID
 router.get('/detail/:id', (req, res) => {
-  if (!req.session || !req.session.user) { return res.redirect('/login')};
+  if (!req.session || !req.session.user) { return res.redirect('/login')};    // users need to login first before going to this page
     const id = req.params.id;
     axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
         .then((response) => {
