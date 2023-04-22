@@ -40,7 +40,7 @@ INSERT INTO administrator
 VALUES (1, "Kritchanapat", "Earthza007", "Kritchanapat", "Junju", "2003-05-26", "kritchanapat.jun@student.mahidol.edu"),
 (2, "Thitiwut", "Bosszahahaha55566", "Thitiwut", "Harnphatcharapanukorn", "2003-04-08", "thitiwutharn@gmail.com"),
 (3, "Sirasit", "himzaza", "Sirasit", "Puangpathanachai", "2003-01-18", "sirasit.pun@student.mahidol.edu"),
-(4, "thanawat", "aritsulynn", "Thanawat", "Jarusuthirug", "2002-02-27", "sirasit.pun@student.mahidol.edu"),
+(4, "thanawat", "aritsulynn", "Thanawat", "Jarusuthirug", "2002-02-27", "thanawat.jau@student.mahidol.edu"),
 (5, "bhubodin", "songzaba", "Bhubodin", "Somwhang", "2002-02-27", "bhubodin.som@student.mahidol.edu"),
 (6, "ict", "ict555", "ict", "user", "2009-05-20", "ict@mahidol.ac.th"),
 (7, "Anababa", "abc1234", "Anna", "Robertson", "1998-04-06", "anna.rob@hotmail.com"),
