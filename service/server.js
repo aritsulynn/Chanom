@@ -463,7 +463,7 @@ router.put('/updateadmin/:id', (req, res) => {
 // Test case #1
 // URL: http://localhost:3000/deleteadmin/1
 // Test case #2
-// URL: http://localhost:3000/deleteadmin/2
+// URL: http://localhost:3000/deleteadmin/10
 router.delete('/deleteadmin/:id', (req, res) => {
     let aID = req.params.id;
     if(!aID) {
@@ -472,7 +472,10 @@ router.delete('/deleteadmin/:id', (req, res) => {
     connection.query("DELETE FROM administrator WHERE aID = ?", [aID], (error, results) => {
         if(error) throw error;
         console.log(`Deleting admin aID = ${aID}`);
-        return res.send({error: false, data: results.affectedRows, message: 'Admin has been deleted successfully'})
+        if(results.affectedRows === 0) {
+            return res.send({error: false, deleted: results.affectedRows, message: 'Admin to be deleted does not exist'})
+        }
+        return res.send({error: false, deleted: results.affectedRows, message: 'Admin has been deleted successfully'})
     })
 })
 

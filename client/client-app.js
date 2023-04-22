@@ -4,7 +4,7 @@ const path = require("path");
 const port = 3030;
 const app = express();
 const axios = require("axios").default;
-const { JSDOM } = require("jsdom");
+const {JSDOM} = require("jsdom");
 const fs = require("fs");
 
 const router = express.Router();
@@ -19,7 +19,7 @@ router.use(
 
 app.use(router);
 
-// set the static file directory
+// set the static file directory (for CSS/Images)
 app.use("/", express.static(path.join(__dirname, "/static")));
 app.use("/detail", express.static(path.join(__dirname, "/static")));
 app.use("/pManage", express.static(path.join(__dirname, "/static")));
@@ -27,7 +27,7 @@ app.use("/uManage", express.static(path.join(__dirname, "/static")));
 
 // This is needed for POST method
 router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+router.use(express.urlencoded({extended: true}));
 
 router.get("/", (req, res) => {
   res.redirect("/login");
@@ -91,7 +91,7 @@ router.get("/home", (req, res) => {
     return res.redirect("/login");
   }
   axios
-    .post(`http://localhost:3000/searchchanom`, {}, { responseType: "json" })
+    .post(`http://localhost:3000/searchchanom`, {}, {responseType: "json"})
     .then((response) => {
       const data = response.data;
 
@@ -159,7 +159,7 @@ router.get("/detail/:id", (req, res) => {
   } // users need to login first before going to this page
   const id = req.params.id;
   axios
-    .get(`http://localhost:3000/selectchanom/${id}`, { responseType: "json" })
+    .get(`http://localhost:3000/selectchanom/${id}`, {responseType: "json"})
     .then((response) => {
       console.log(response.data);
       const data = response.data;
@@ -234,7 +234,7 @@ router.get("/pSearch", (req, res) => {
   }
   console.log("Request at /search");
   axios
-    .post(`http://localhost:3000/searchchanom`, { responseType: "json" })
+    .post(`http://localhost:3000/searchchanom`, {responseType: "json"})
     .then((response) => {
       const data = response.data;
 
@@ -341,7 +341,7 @@ router.get("/pManage", (req, res) => {
   }
   console.log("Request at /pManage");
   axios
-    .post(`http://localhost:3000/searchchanom`, { responseType: "json" }) // get all product results
+    .post(`http://localhost:3000/searchchanom`, {responseType: "json"}) // get all product results
     .then((response) => {
       const data = response.data;
       //console.log(data);
@@ -426,7 +426,7 @@ router.get("/pManage/edit/:id", (req, res) => {
   }
   const id = req.params.id;
   axios
-    .get(`http://localhost:3000/selectchanom/${id}`, { responseType: "json" })
+    .get(`http://localhost:3000/selectchanom/${id}`, {responseType: "json"})
     .then((response) => {
       console.log(response.data);
       const data = response.data;
@@ -517,7 +517,7 @@ router.get("/uSearch", (req, res) => {
   }
   console.log("Request at /search");
   axios
-    .post(`http://localhost:3000/searchadmin`, { responseType: "json" })
+    .post(`http://localhost:3000/searchadmin`, {responseType: "json"})
     .then((response) => {
       const data = response.data;
 
@@ -647,7 +647,7 @@ router.get("/uManage", (req, res) => {
   }
   console.log("Request at /uManage");
   axios
-    .post(`http://localhost:3000/searchadmin`, { responseType: "json" })
+    .post(`http://localhost:3000/searchadmin`, {responseType: "json"})
     .then((response) => {
       const data = response.data;
       //console.log(data);
@@ -734,7 +734,7 @@ router.get("/uManage/edit/:id", (req, res) => {
   }
   const id = req.params.id;
   axios
-    .get(`http://localhost:3000/selectadmin/${id}`, { responseType: "json" })
+    .get(`http://localhost:3000/selectadmin/${id}`, {responseType: "json"})
     .then((response) => {
       console.log(response.data);
       const data = response.data;
@@ -804,6 +804,7 @@ router.post("/admin-update/:id", (req, res) => {
     });
 });
 
+// External public API to get an ideal weight according to the height
 router.post("/getweight", (req, res) => {
   // console.log("button click", req.body.weight);
 
