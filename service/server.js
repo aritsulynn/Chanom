@@ -265,21 +265,30 @@ router.post('/authenticate', (req, res) => {
     const username = req.body.username;
     const pass_word = req.body.password;
 
-    if(!username || !pass_word) {
-        return res.status(400).send({error: true, message: 'Please provide admin information'})
+    if (!username || !pass_word) {
+        return res.status(400).send({ error: true, message: 'Please provide admin information' });
     }
-    connection.query("SELECT username, pass_word FROM administrator", (error, results) => {
-        if(error) throw error;
-        for(var i = 0; i < results.length; i++) {
-            if(results[i].username === username && results[i].pass_word === pass_word) {
-                console.log("Authentication: match");
-                return res.json({"status": "match", "code": 1});    // send status pass(1) back if match
+    try {
+        connection.query("SELECT username, pass_word FROM administrator", (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: true, message: 'Internal server error' });
             }
-        }
-        console.log("Authentication: no match");
-        return res.json({"status": "no match", "code": 0});    // send fail(0) if username and password does not match
-    })
-})
+            for (var i = 0; i < results.length; i++) {
+                if (results[i].username === username && results[i].pass_word === pass_word) {
+                    console.log("Authentication: match");
+                    return res.json({ "status": "match", "code": 1 }); // send status pass(1) back if match
+                }
+            }
+            console.log("Authentication: no match");
+            return res.json({ "status": "no match", "code": 0 }); // send fail(0) if username and password does not match
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: true, message: 'Internal server error' });
+    }
+});
+
 
 // Select an admin based on aID
 // method: get

@@ -1,12 +1,20 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const port = 3030;
 const app = express();
-const axios = require('axios').default;     // used for Web Service (get data from server.js)
+const axios = require('axios').default;
 const { JSDOM } = require('jsdom');
 const fs = require('fs');
 
 const router = express.Router();
+
+router.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}));
+
 app.use(router);
 
 // set the static file directory
@@ -20,39 +28,47 @@ router.use(express.json());
 router.use(express.urlencoded({extended: true}));
 
 router.get('/', (req, res) => {
-    console.log("Request at /");
-    res.status(200).send("Hello World! in plain text");
-})
+  res.redirect('/login');
+});
 
 router.get('/login', (req, res) => {
     console.log("Request at /login");   
     res.status(200).sendFile(path.join(__dirname,"/html/login.html"));
 })
 
-router.get('/login-submit', (req, res) => {
+router.post('/login-submit', (req, res) => {
   console.log("Request at /login-submit");
-  console.log(`Log in with username: ${req.query.username} password: ${req.query.password}`); // Log the username and password
+  console.log(`Log in with username: ${req.body.username} password: ${req.body.password}`);
 
-  axios.post(`http://localhost:3000/authenticate`, req.query)
+  axios.post(`http://localhost:3000/authenticate`, req.body)
     .then((response) => {
       const code = response.data.code;
       if(code === 1) {
         console.log("Login successful!");
-        return res.redirect("/home")
+        req.session.user = req.body.username  // set session
+        res.redirect('/home');
+      } else {
+        console.log("Wrong username or password.");
+        fs.readFile(path.join(__dirname, "/html/login.html"), 'utf8', (err, html) => {
+          if (err) {
+            throw err;
+          }
+          const dom = new JSDOM(html);
+          const warning = dom.window.document.getElementById('incorrect-warning');
+          
+          warning.innerHTML = "Incorrect username or password";
+          res.send(dom.serialize());  // sending the modified html file
+        }); 
       }
-      console.log("Wrong username or password.");
-      fs.readFile(path.join(__dirname, "/html/login.html"), 'utf8', (err, html) => {
-        if (err) {
-          throw err;
-        }
-        const dom = new JSDOM(html);
-        const warning = dom.window.document.getElementById('incorrect-warning');
-        
-        warning.innerHTML = "Incorrect username or password";
-        res.send(dom.serialize());  // sending the modified html file
-      }); 
     })
-})
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    });
+});
+
+
+
 
 router.get('/aboutus', (req, res) => {
     console.log("Request at /aboutus");
@@ -61,13 +77,13 @@ router.get('/aboutus', (req, res) => {
 
 router.get('/home', (req, res) => {
   console.log('Request at /home');
-  axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})    // search with no criteria (get all products)
-  .then((response) => {
-      
-      const data = response.data;
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
+    axios.post(`http://localhost:3000/searchchanom`, {}, { responseType: 'json' })
+      .then((response) => {
+        const data = response.data;
 
-      // load the html file then add 5 recommended products from the database
-      fs.readFile(path.join(__dirname, "/html/home.html"), 'utf8', (err, html) => {
+        // load the html file then add 5 recommended products from the database
+        fs.readFile(path.join(__dirname, "/html/home.html"), 'utf8', (err, html) => {
           if (err) {
             throw err;
           }
@@ -75,7 +91,7 @@ router.get('/home', (req, res) => {
           const output = dom.window.document.getElementById('recommend');
 
           output.innerHTML = ``;
-          
+
           var child = `<div class="container-fluid"><div class="row" style="padding: 50px;">`;
 
           var toDisplay;  // the number of products to display on the page
@@ -102,12 +118,23 @@ router.get('/home', (req, res) => {
           // add page content with the retrieved data
           output.innerHTML += child + "</div>";
           res.send(dom.serialize());  // sending the modified html file
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(500).send("Internal Server Error");
       });
-  })
-})
+});
+
+router.post('/logout', (req, res) => {
+  delete req.session.user; // delete the session user
+  res.sendStatus(200); // send a success response to the client
+});
+
 
 // get detail page for each product ID
 router.get('/detail/:id', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
     const id = req.params.id;
     axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
         .then((response) => {
@@ -175,6 +202,7 @@ router.get('/detail/:id', (req, res) => {
 
 // get search page for product
 router.get('/pSearch', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   console.log("Request at /search");
   axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})
   .then((response) => {
@@ -217,6 +245,7 @@ router.get('/pSearch', (req, res) => {
 
 // search function for product
 router.post('/pSearch-submit', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   var query = req.body;
   console.log(query);
   axios.post(`http://localhost:3000/searchchanom`, query)   // We need to use post instead of get because axios seems to be unable to send data along with get
@@ -261,6 +290,7 @@ router.post('/pSearch-submit', (req, res) => {
 
 // product management page
 router.get('/pManage', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   console.log('Request at /pManage');
   axios.post(`http://localhost:3000/searchchanom`, {responseType: 'json'})  // get all product results
   .then((response) => {
@@ -314,6 +344,7 @@ router.get('/pManage', (req, res) => {
 
 // insert product into the database
 router.post('/product-insert', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   var data = req.body;
   console.log(data);
   
@@ -326,6 +357,7 @@ router.post('/product-insert', (req, res) => {
 
 // delete a product based on product ID
 router.get('/product-delete/:id', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   const id = req.params.id;
   axios.delete(`http://localhost:3000/deletechanom/${id}`)
   .then((response) => {
@@ -335,6 +367,7 @@ router.get('/product-delete/:id', (req, res) => {
 
 // get an edit page for each product
 router.get('/pManage/edit/:id', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   const id = req.params.id;
   axios.get(`http://localhost:3000/selectchanom/${id}`, {responseType: 'json'})
   .then((response) => {
@@ -401,6 +434,7 @@ router.get('/pManage/edit/:id', (req, res) => {
 
 // update a product based on product ID
 router.post('/product-update/:id', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   var pID = req.params.id;
   var data = req.body;
   console.log(data);
@@ -414,6 +448,7 @@ router.post('/product-update/:id', (req, res) => {
 
 // get search page for admin data
 router.get('/uSearch', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   console.log("Request at /search");
   axios.post(`http://localhost:3000/searchadmin`, {responseType: 'json'})
   .then((response) => {
@@ -468,6 +503,7 @@ router.get('/uSearch', (req, res) => {
 
 // search function for admin data
 router.post('/uSearch-submit', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   var query = req.body;
   console.log(query);
 
@@ -526,6 +562,7 @@ router.post('/uSearch-submit', (req, res) => {
 
 // product management page
 router.get('/uManage', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   console.log('Request at /uManage');
   axios.post(`http://localhost:3000/searchadmin`, {responseType: 'json'})
   .then((response) => {
@@ -581,6 +618,7 @@ router.get('/uManage', (req, res) => {
 
 // insert admin into the database
 router.post('/admin-insert', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   var data = req.body;
   console.log(data);
   
@@ -593,6 +631,7 @@ router.post('/admin-insert', (req, res) => {
 
 // delete an admin based on aID
 router.get('/admin-delete/:id', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   const id = req.params.id;
   axios.delete(`http://localhost:3000/deleteadmin/${id}`)
   .then((response) => {
@@ -602,6 +641,7 @@ router.get('/admin-delete/:id', (req, res) => {
 
 // get an edit page for each admin account
 router.get('/uManage/edit/:id', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   const id = req.params.id;
   axios.get(`http://localhost:3000/selectadmin/${id}`, {responseType: 'json'})
   .then((response) => {
@@ -655,6 +695,7 @@ router.get('/uManage/edit/:id', (req, res) => {
 
 // update an admin based on aID
 router.post('/admin-update/:id', (req, res) => {
+  if (!req.session || !req.session.user) { return res.redirect('/login')};
   var aID = req.params.id;
   var data = req.body;
   console.log(data);
@@ -667,8 +708,11 @@ router.post('/admin-update/:id', (req, res) => {
 
 // unspecified path
 app.get('*', function(req, res){
+  console.log("404");
   res.status(404).sendFile(path.join(__dirname,"/html/error.html"));
 });
+
+
 
 app.listen(port, () => {
     console.log('Server listening on port: ' + port);

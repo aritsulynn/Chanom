@@ -146,10 +146,10 @@ button.login-button {
 input[type="text"],
 input[type="password"] {
   border: 1px solid black;
-  height: 55px;
+  height: 3.5rem; /* equivalent to 55px */
   padding: 0 2rem;
   width: 75%;
-  font-size: 18px;
+  font-size: 1.125rem; /* equivalent to 18px */
   border-radius: 100px;
 }
 .login-right img {
