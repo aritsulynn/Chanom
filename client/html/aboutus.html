@@ -59,6 +59,22 @@
                     experience in town.</p>
             </div>
         </div>
+        <div style="text-align: center; justify-content: center; display: inline-block; margin-bottom: 15px; width: 100%; font-size: 22px">
+            <form action="/getweight" method="POST">
+                <h1 style="text-align: center; padding-top: 30px; color: #8c0724;">Ideal Weight</h1>
+                <label for="height">Your gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Not select</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <label for="height">Your height</label>
+                <input type="text-search" id="height" name="height" placeholder="" required> <br>
+                <button type="submit" id="search-btn" style="margin-top: 15px; margin-bottom: 15px;">Search</button> 
+              </form>
+              <div id="weight_text">
+              </div>
+        </div>
         <!-- Row for displaying our branches -->
         <div class="row">
             <!-- Each column uses card to display the store image and its description -->
@@ -118,6 +134,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Second section, about us for the team members -->
     <div class="container-fluid" style="padding: 30px; background: linear-gradient(90deg, rgb(228, 199, 199), white);">
         <h1 style="text-align: center; color: #8c0724; padding-bottom: 30px;">Our Team Members</h1>
