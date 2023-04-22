@@ -225,8 +225,9 @@ div p {
   font-size: 18px;
   color: #6a070a;
 }
+
 /* form container styles */
-.form-container {
+.form-container-weight {
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
@@ -238,7 +239,7 @@ div p {
 }
 
 /* form header styles */
-.form-header {
+.form-header-weight {
   font-size: 32px;
   color: #8c0724;
   margin-top: 0;
@@ -246,13 +247,13 @@ div p {
 }
 
 /* form group styles */
-.form-group {
+.form-group-weight {
   margin-bottom: 20px;
   text-align: left;
 }
 
 /* label styles */
-label {
+label.weight {
   display: block;
   font-size: 18px;
   color: #555;
@@ -260,7 +261,7 @@ label {
 }
 
 /* input styles */
-input[type="text-search"], select {
+input[type="text-search"].weight, select.weight {
   padding: 10px;
   border: none;
   border-radius: 5px;

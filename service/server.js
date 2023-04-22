@@ -241,7 +241,10 @@ router.delete('/deletechanom/:id', (req, res) => {
     connection.query("DELETE FROM product WHERE pID = ?", [pID], (error, results) => {
         if(error) throw error;
         console.log(`Deleting product pID = ${pID}`);
-        return res.send({error: false, data: results.affectedRows, message: 'Product has been deleted successfully'})
+        if(results.affectedRows === 0) {
+            return res.send({error: false, deleted: results.affectedRows, message: 'Product to be deleted does not exist'})
+        }
+        return res.send({error: false, deleted: results.affectedRows, message: 'Product has been deleted successfully'})
     })
 })
 

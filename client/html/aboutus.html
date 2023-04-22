@@ -102,7 +102,7 @@
             </div>
         </div>
         <!-- This row shows some more info on our business -->
-        <div class="row" style="margin-top: 50px;">
+        <div class="row" style="margin-top: 50px; margin-bottom: 30px;">
             <div class="col-5 review-box">  <!-- col-5, col-6 is used to adjust the scale between each column -->
                 <p style="text-align: center;">"At our cafe, you'll find a wide variety of flavors to choose from,
                     including classic milk tea, fruity blends, and unique specialties like matcha and taro.
@@ -118,20 +118,21 @@
                 </p>
             </div>
         </div>
-        <div class="form-container">
+        
+        <div class="form-container-weight">
             <form action="/getweight" method="POST">
-                <h1 class="form-header">Ideal Weight</h1>
-                <div class="form-group">
-                    <label for="gender">Your gender</label>
-                    <select id="gender" name="gender" required>
+                <h1 class="form-header-weight">Ideal Weight</h1>
+                <div class="form-group-weight">
+                    <label class="weight" for="gender">Your gender</label>
+                    <select class="weight" id="gender" name="gender" required>
                         <option value="">Not select</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group-weight">
                     <label for="height">Your height</label>
-                    <input type="text-search" id="height" name="height" placeholder="" required>
+                    <input type="text-search" class="weight" id="height" name="height" placeholder="" required>
                 </div>
                 <button type="submit" class="form-submit">Search</button>
             </form>
