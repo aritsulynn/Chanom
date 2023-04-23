@@ -4,7 +4,7 @@ const path = require("path");
 const port = 3030;
 const app = express();
 const axios = require("axios").default;
-const {JSDOM} = require("jsdom");
+const { JSDOM } = require("jsdom");
 const fs = require("fs");
 
 const router = express.Router();
@@ -27,7 +27,7 @@ app.use("/uManage", express.static(path.join(__dirname, "/static")));
 
 // This is needed for POST method
 router.use(express.json());
-router.use(express.urlencoded({extended: true}));
+router.use(express.urlencoded({ extended: true }));
 
 router.get("/", (req, res) => {
   res.redirect("/login");
@@ -91,7 +91,7 @@ router.get("/home", (req, res) => {
     return res.redirect("/login");
   }
   axios
-    .post(`http://localhost:3000/searchchanom`, {}, {responseType: "json"})
+    .post(`http://localhost:3000/searchchanom`, {}, { responseType: "json" })
     .then((response) => {
       const data = response.data;
 
@@ -159,7 +159,7 @@ router.get("/detail/:id", (req, res) => {
   } // users need to login first before going to this page
   const id = req.params.id;
   axios
-    .get(`http://localhost:3000/selectchanom/${id}`, {responseType: "json"})
+    .get(`http://localhost:3000/selectchanom/${id}`, { responseType: "json" })
     .then((response) => {
       console.log(response.data);
       const data = response.data;
@@ -234,7 +234,7 @@ router.get("/pSearch", (req, res) => {
   }
   console.log("Request at /search");
   axios
-    .post(`http://localhost:3000/searchchanom`, {responseType: "json"})
+    .post(`http://localhost:3000/searchchanom`, { responseType: "json" })
     .then((response) => {
       const data = response.data;
 
@@ -250,13 +250,7 @@ router.get("/pSearch", (req, res) => {
 
           output.innerHTML = "";
           var child = `<div style="display: flex; flex-wrap: wrap; padding-left:100px; padding-right: 100px; padding-bottom: 50px">`;
-          var toDisplay; // the number of products to display on the page
-          if (data.length >= 5) {
-            toDisplay = 5;
-          } else {
-            toDisplay = data.length;
-          } // if there are more than 5 products, display just 5
-          for (var i = 0; i < toDisplay; i++) {
+          for (var i = 0; i < data.length; i++) {
             child += `
           <!-- Use card to display search results -->
           <div class="card" style="width: 15rem; margin: 10px">
@@ -341,7 +335,7 @@ router.get("/pManage", (req, res) => {
   }
   console.log("Request at /pManage");
   axios
-    .post(`http://localhost:3000/searchchanom`, {responseType: "json"}) // get all product results
+    .post(`http://localhost:3000/searchchanom`, { responseType: "json" }) // get all product results
     .then((response) => {
       const data = response.data;
       //console.log(data);
@@ -426,7 +420,7 @@ router.get("/pManage/edit/:id", (req, res) => {
   }
   const id = req.params.id;
   axios
-    .get(`http://localhost:3000/selectchanom/${id}`, {responseType: "json"})
+    .get(`http://localhost:3000/selectchanom/${id}`, { responseType: "json" })
     .then((response) => {
       console.log(response.data);
       const data = response.data;
@@ -517,7 +511,7 @@ router.get("/uSearch", (req, res) => {
   }
   console.log("Request at /search");
   axios
-    .post(`http://localhost:3000/searchadmin`, {responseType: "json"})
+    .post(`http://localhost:3000/searchadmin`, { responseType: "json" })
     .then((response) => {
       const data = response.data;
 
@@ -647,7 +641,7 @@ router.get("/uManage", (req, res) => {
   }
   console.log("Request at /uManage");
   axios
-    .post(`http://localhost:3000/searchadmin`, {responseType: "json"})
+    .post(`http://localhost:3000/searchadmin`, { responseType: "json" })
     .then((response) => {
       const data = response.data;
       //console.log(data);
@@ -734,7 +728,7 @@ router.get("/uManage/edit/:id", (req, res) => {
   }
   const id = req.params.id;
   axios
-    .get(`http://localhost:3000/selectadmin/${id}`, {responseType: "json"})
+    .get(`http://localhost:3000/selectadmin/${id}`, { responseType: "json" })
     .then((response) => {
       console.log(response.data);
       const data = response.data;
