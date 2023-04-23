@@ -465,7 +465,7 @@ router.get("/pManage/edit/:id", (req, res) => {
       <label for="product-input">Price:</label> 
       <input type="number" placeholder="Price" name="price" id="drinkPrice" required value="${data.price}"> Baht <br>
       <button type="submit">Confirm</button>
-      <button type="reset" id="clear-product">Clear</button>
+      <a href="/pManage" class="cancel">Cancel</a>
   </form>`;
 
           output.innerHTML = "";
@@ -765,7 +765,7 @@ router.get("/uManage/edit/:id", (req, res) => {
       <label for="product-input">Email: </label> 
       <input type="email" value="${data.email}" placeholder="Email" id="email" name="email" required> <br>
       <button type="submit">Confirm</button>
-      <button type="reset" id="clear-product">Clear</button>
+      <a href="/uManage" class="cancel">Cancel</a>
   </form>`;
 
           output.innerHTML = "";

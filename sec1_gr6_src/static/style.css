@@ -342,7 +342,7 @@ textarea {
 .product-input input[type="radio"] {
   margin-right: 5px;
 }
-.product-input button {
+.product-input button, .cancel{
   margin-top: 20px;
   padding: 10px 20px;
   background-color: #fcaaa1;
@@ -352,7 +352,8 @@ textarea {
   font-size: 18px;
   cursor: pointer;
 }
-.product-input button[type="reset"] {
+.product-input button[type="reset"], .cancel {
+  text-decoration: none;
   margin-left: 10px;
   background-color: #ffffff;
   color: #f79489;
