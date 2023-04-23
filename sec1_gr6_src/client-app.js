@@ -851,6 +851,7 @@ router.post("/getweight", (req, res) => {
     );
   });
 });
+
 // unspecified path
 app.get("*", function (req, res) {
   console.log("404");
