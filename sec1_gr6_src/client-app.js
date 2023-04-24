@@ -397,7 +397,6 @@ router.post("/product-insert", (req, res) => {
   console.log(data);
 
   axios.post("http://localhost:3000/insertchanom", data).then((response) => {
-    //console.log(response);
     res.redirect("/pManage");
   });
 });
@@ -499,7 +498,6 @@ router.post("/product-update/:id", (req, res) => {
   axios
     .put(`http://localhost:3000/updatechanom/${pID}`, data)
     .then((response) => {
-      //console.log(response);
       res.redirect("/pManage");
     });
 });
@@ -541,13 +539,7 @@ router.get("/uSearch", (req, res) => {
         </tr>
       </thead>
       <tbody>`;
-          var toDisplay; // the number of products to display on the page
-          if (data.length >= 5) {
-            toDisplay = 5;
-          } else {
-            toDisplay = data.length;
-          } // if there are more than 5 products, display just 5
-          for (var i = 0; i < toDisplay; i++) {
+          for (var i = 0; i < data.length; i++) {
             child += `
         <tr>
         <th scope="row">${data[i].aID}</th>
@@ -800,8 +792,6 @@ router.post("/admin-update/:id", (req, res) => {
 
 // External public API to get an ideal weight according to the height
 router.post("/getweight", (req, res) => {
-  // console.log("button click", req.body.weight);
-
   if (req.body.gender === "") return;
   const options = {
     method: "GET",
