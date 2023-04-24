@@ -697,7 +697,6 @@ router.post("/admin-insert", (req, res) => {
   console.log(data);
 
   axios.post("http://localhost:3000/insertadmin", data).then((response) => {
-    //console.log(response);
     res.redirect("/uManage");
   });
 });
@@ -785,7 +784,6 @@ router.post("/admin-update/:id", (req, res) => {
   axios
     .put(`http://localhost:3000/updateadmin/${aID}`, data)
     .then((response) => {
-      //console.log(response);
       res.redirect("/uManage");
     });
 });
